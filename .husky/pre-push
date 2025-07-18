@@ -1,0 +1,2 @@
+echo "Building the project to ensure no compile errors..."
+npm run build
