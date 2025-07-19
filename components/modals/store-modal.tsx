@@ -3,10 +3,10 @@
 import { useModalStore } from "@/hooks/useModalStore";
 import Modal from "../ui/custom/modal";
 import * as zod from "zod";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -15,9 +15,13 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { useState } from "react";
+import { Button } from "../ui/custom/button";
+import toast from "react-hot-toast";
 
 export default function StoreModal() {
   const storeModal = useModalStore();
+  const [loading, setLoading] = useState(false);
 
   const formSchema = zod.object({
     name: zod.string().min(2, "Store name is required"),
@@ -31,7 +35,25 @@ export default function StoreModal() {
   });
 
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
-    alert(JSON.stringify(values, null, 2));
+    setLoading(true);
+    try {
+      const res = await axios.post("/api/stores", values);
+
+      if (res.status === 200) {
+        toast.success("Store created successfully");
+        form.reset();
+        storeModal.onClose();
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        console.log("Error creating store:", error);
+        error?.status === 405
+          ? toast.error("Method not allowed")
+          : toast.error(error.response?.data?.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,7 +73,11 @@ export default function StoreModal() {
               <FormItem>
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="E-Commerce" {...field} />
+                  <Input
+                    disabled={loading}
+                    placeholder="E-Commerce"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -59,10 +85,15 @@ export default function StoreModal() {
           />
 
           <div className="flex justify-end gap-2">
-            <Button type="button" variant={"outline"}>
+            <Button disabled={loading} variant={"outline"}>
               Cancel
             </Button>
-            <Button className="cursor" type="submit">
+            <Button
+              iconRight
+              loadingText="Saving"
+              isLoading={loading}
+              type="submit"
+            >
               Submit
             </Button>
           </div>

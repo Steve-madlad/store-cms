@@ -12,6 +12,7 @@ import { ThemeProvider } from "next-themes";
 import ThemeSwitch from "@/components/themeSwitch";
 import { ClerkProvider } from "@/components/clerkProvider";
 import ModalProvider from "@/providers/modal-provider";
+import { Toaster as ToastProvider } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,7 +57,7 @@ export default function RootLayout({
                 <UserButton />
               </SignedIn>
             </header>
-
+            <ToastProvider />
             <ModalProvider />
             {children}
           </ClerkProvider>
