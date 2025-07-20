@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     if (!userId) {
       return NextResponse.json(
         {
-          message: "Unautherized",
+          message: "Unauthorized",
         },
         { status: 401 },
       );

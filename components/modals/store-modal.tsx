@@ -40,9 +40,8 @@ export default function StoreModal() {
       const res = await axios.post("/api/stores", values);
 
       if (res.status === 200) {
-        toast.success("Store created successfully");
         form.reset();
-        storeModal.onClose();
+        window.location.assign(`/store/${res.data.data.id}`);
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

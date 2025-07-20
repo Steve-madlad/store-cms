@@ -41,22 +41,17 @@ export default function RootLayout({
       >
         <ThemeProvider attribute={"class"}>
           <ClerkProvider>
-            <header className="flex h-16 items-center justify-end gap-4 p-4">
-              <SignedOut>
-                <div>
-                  <SignInButton />
-                  <SignUpButton>
-                    <button className="h-10 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white sm:h-12 sm:px-5 sm:text-base">
-                      Sign Up
-                    </button>
-                  </SignUpButton>
-                  <ThemeSwitch />
-                </div>
-              </SignedOut>
-              <SignedIn>
-                <UserButton />
-              </SignedIn>
-            </header>
+            <SignedOut>
+              <header className="flex h-16 items-center justify-end gap-4 p-4">
+                <SignInButton />
+                <SignUpButton>
+                  <button className="h-8 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white sm:h-8 sm:px-5 sm:text-base">
+                    Sign Up
+                  </button>
+                </SignUpButton>
+                <ThemeSwitch />
+              </header>
+            </SignedOut>
             <ToastProvider />
             <ModalProvider />
             {children}

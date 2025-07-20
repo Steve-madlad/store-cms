@@ -8,8 +8,6 @@ import { dark } from "@clerk/themes";
 export function ClerkProvider({ children }: { children: ReactNode }) {
   const { resolvedTheme } = useTheme();
 
-  console.log(resolvedTheme, "Current theme in ClerkProvider");
-
   return (
     <Provider
       appearance={{

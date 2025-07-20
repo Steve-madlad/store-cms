@@ -1,0 +1,30 @@
+export interface ModalProps {
+  title: string;
+  description: string;
+  isOpen: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}
+
+export interface UseModalStore {
+  isOpen: boolean;
+  openModal: () => void;
+  onClose: () => void;
+}
+
+export interface Options {
+  value: string;
+  label: string;
+}
+
+export interface ComboboxProps {
+  items: Options[];
+  onCreate?: () => void;
+  onSelect?: (id: string) => void;
+  createPrompt?: string;
+  placeholder?: string;
+  groupHeading?: string;
+  defaultValue?: Options;
+  icon?: React.ReactNode;
+  optionIcon?: boolean;
+}
