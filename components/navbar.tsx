@@ -1,8 +1,6 @@
 import { SignedIn, UserButton } from "@clerk/nextjs";
-import React from "react";
 import ThemeSwitch from "./themeSwitch";
 import NavLinks from "./navLinks";
-import Combobox from "./ui/custom/combobox";
 import { Options } from "@/models/components";
 import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";

@@ -46,9 +46,11 @@ export default function StoreModal() {
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         console.log("Error creating store:", error);
-        error?.status === 405
-          ? toast.error("Method not allowed")
-          : toast.error(error.response?.data?.message);
+        toast.error(
+          error?.status === 405
+            ? "Method not allowed"
+            : error.response?.data?.message,
+        );
       }
     } finally {
       setLoading(false);

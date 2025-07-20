@@ -1,9 +1,7 @@
 import Navbar from "@/components/navbar";
 import TempCodeBlock from "@/components/tempCodeBlock";
-import { Button } from "@/components/ui/custom/button";
 import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { Clipboard } from "lucide-react";
 import { redirect } from "next/navigation";
 import React from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown, Plus, PlusCircle } from "lucide-react";
+import { Check, ChevronsUpDown, PlusCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -66,7 +66,7 @@ export default function Combobox({
                   onSelect={() => {
                     setValue(item.value);
                     setOpen(false);
-                    onSelect && onSelect(item.value);
+                    if (onSelect) onSelect(item.value);
                   }}
                 >
                   <div className="text-foreground flex-center gap-2">
