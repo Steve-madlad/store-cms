@@ -7,12 +7,13 @@ import React from "react";
 export default function NavLinks() {
   const pathname = usePathname();
   const params = useParams();
+  const storeId = params.storeId;
 
   const links = [
     {
       title: "Settings",
       href: "/settings",
-      active: pathname === `/${params.storeId}/settings` ? true : false,
+      active: pathname === `/${storeId}/settings` ? true : false,
     },
   ];
 
