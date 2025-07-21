@@ -25,7 +25,11 @@ export default function TempCodeBlock({
           onClick={handleCopy}
           className="hover:text-muted-foreground !bg-transparent"
         >
-          {copied ? <Check className="text-chart-2" /> : <Clipboard />}
+          {copied ? (
+            <Check className="text-chart-2" />
+          ) : (
+            <Clipboard className="dark:text-foreground" />
+          )}
         </Button>
       </div>
       <div className="p-4 pt-0">
