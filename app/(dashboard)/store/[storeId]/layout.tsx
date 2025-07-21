@@ -3,14 +3,14 @@ import TempCodeBlock from "@/components/tempCodeBlock";
 import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import React from "react";
+import { ReactNode } from "react";
 
 export default async function dashboardLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
-  params: { storeId: string };
+  children: ReactNode;
+  params: Promise<{ storeId: string }>; // Use Promise for params
 }) {
   const { userId } = await auth();
 
@@ -18,9 +18,12 @@ export default async function dashboardLayout({
     redirect("/sign-in");
   }
 
+  // Await the params to resolve the storeId
+  const { storeId } = await params;
+
   const response = await db.store.findFirst({
     where: {
-      id: params.storeId,
+      id: storeId,
       userId,
     },
   });
