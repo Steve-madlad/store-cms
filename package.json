@@ -10,7 +10,7 @@
     "prepare": "husky",
     "studio": "prisma studio",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "postinstall": "prisma generate"
+    "postinstall": "cd packages/database && turbo run prisma:generate && mkdir -p ../../node_modules/.npm/@prisma+client@6.12.0_prisma@6.12.0/@prisma/client && cp ../../node_modules/.npm/@prisma+client@6.12.0_prisma@6.12.0/node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node ../../node_modules/.npm/@prisma+client@6.12.0_prisma@6.12.0/@prisma/client/"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.25.3",
