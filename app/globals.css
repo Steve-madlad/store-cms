@@ -125,6 +125,9 @@
   .flex-center {
     @apply flex items-center justify-center;
   }
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
   .align-center {
     @apply flex items-center;
   }

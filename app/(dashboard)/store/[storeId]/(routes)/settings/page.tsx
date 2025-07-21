@@ -1,15 +1,11 @@
-import Navbar from "@/components/navbar";
-import TempCodeBlock from "@/components/tempCodeBlock";
 import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import SettingsForm from "./components/settingsForm";
 
-export default async function dashboardLayout({
-  children,
+export default async function page({
   params,
 }: {
-  children: ReactNode;
   params: Promise<{ storeId: string }>;
 }) {
   const { userId } = await auth();
@@ -20,6 +16,10 @@ export default async function dashboardLayout({
 
   const { storeId } = await params;
 
+  if (!storeId) {
+    redirect("/");
+  }
+
   const response = await db.store.findFirst({
     where: {
       id: storeId,
@@ -27,19 +27,14 @@ export default async function dashboardLayout({
     },
   });
 
-  console.log("response for id param", response);
-
   if (!response) {
     redirect("/");
   }
 
   return (
-    <>
-      <Navbar />
-      <div className="px-6 py-4">
-        {children}
-        <TempCodeBlock response={response} />
-      </div>
-    </>
+    <div className="mb-7">
+      {/* settings for {response.name} */}
+      <SettingsForm />
+    </div>
   );
 }

@@ -11,13 +11,23 @@ export default function NavLinks() {
   const links = [
     {
       title: "Settings",
-      href: "/settings",
-      active: pathname === `/${params.storeId}/settings` ? true : false,
+      href: `/store/${params.storeId}/settings`,
+      active: pathname === `/store/${params.storeId}/settings` ? true : false,
+    },
+    {
+      title: "Orders",
+      href: `/store/${params.storeId}/orders`,
+      active: pathname === `/store/${params.storeId}/orders` ? true : false,
+    },
+    {
+      title: "Cart",
+      href: `/store/${params.storeId}/cart`,
+      active: pathname === `/store/${params.storeId}/cart` ? true : false,
     },
   ];
 
   return (
-    <div>
+    <div className="flex-center gap-6">
       {links.map((link) => (
         <Link
           className={`${link.active ? "font-semibold" : "text-muted-foreground"} hover:text-foreground`}

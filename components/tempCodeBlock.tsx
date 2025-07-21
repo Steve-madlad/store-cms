@@ -19,7 +19,7 @@ export default function TempCodeBlock({
   };
 
   return (
-    <pre className="w-fit overflow-hidden rounded-md bg-[#1d202d] pt-2 pr-2">
+    <pre className="w-full overflow-hidden rounded-md bg-[#1d202d] pt-2 pr-2 sm:w-fit">
       <div className="just-end">
         <Button
           onClick={handleCopy}
@@ -28,7 +28,7 @@ export default function TempCodeBlock({
           {copied ? <Check className="text-chart-2" /> : <Clipboard />}
         </Button>
       </div>
-      <div className="p-4 pt-0">
+      <div className="overflow-auto p-4 pt-0">
         <code className="text-white">{JSON.stringify(response, null, 2)}</code>
       </div>
     </pre>
