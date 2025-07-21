@@ -34,7 +34,7 @@ export default function StoreSelector({
       groupHeading="Stores"
       onCreate={storeModal.openModal}
       onSelect={(id) => returnMatch(id, true)}
-      createPrompt="Create a store"
+      createPrompt="Create Store"
       defaultValue={storeMatch}
       icon={<Store className="text-inherit" />}
       optionIcon
