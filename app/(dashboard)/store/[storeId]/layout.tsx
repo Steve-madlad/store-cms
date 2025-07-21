@@ -10,7 +10,7 @@ export default async function dashboardLayout({
   params,
 }: {
   children: ReactNode;
-  params: Promise<{ storeId: string }>; // Use Promise for params
+  params: Promise<{ storeId: string }>;
 }) {
   const { userId } = await auth();
 
@@ -18,7 +18,6 @@ export default async function dashboardLayout({
     redirect("/sign-in");
   }
 
-  // Await the params to resolve the storeId
   const { storeId } = await params;
 
   const response = await db.store.findFirst({

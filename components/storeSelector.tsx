@@ -14,13 +14,12 @@ export default function StoreSelector({
   const storeModal = useModalStore();
   const params = useParams();
   const router = useRouter();
-  const storeId = params.storeId;
 
   const returnMatch = (key: unknown, redirect: boolean = false) => {
     const match = storeOptions.find((option) => option.value === key);
     if (redirect) {
       if (match) {
-        router.push(`/store/${storeId}`);
+        router.push(`/store/${match.value}`);
       }
     }
     return match;
