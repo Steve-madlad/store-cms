@@ -28,7 +28,7 @@ export default function TempCodeBlock({
           {copied ? (
             <Check className="text-chart-2" />
           ) : (
-            <Clipboard className="dark:text-foreground" />
+            <Clipboard className="dark:!text-foreground" />
           )}
         </Button>
       </div>
