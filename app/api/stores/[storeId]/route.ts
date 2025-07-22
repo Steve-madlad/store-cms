@@ -4,10 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: Promise<{ storeId: string }> },
 ) {
   try {
     const { userId } = await auth();
+    const { storeId } = await params;
 
     const body = await request.json();
     const { name } = body;
@@ -21,7 +22,7 @@ export async function PATCH(
       );
     }
 
-    if (!name || !params.storeId) {
+    if (!name || !storeId) {
       const message = `${!name ? "Name" : "Store id"} is required`;
 
       return NextResponse.json(
@@ -34,7 +35,7 @@ export async function PATCH(
 
     const res = await db.store.updateMany({
       where: {
-        id: params.storeId,
+        id: storeId,
         userId,
       },
       data: { name },
@@ -60,10 +61,11 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { storeId: string } },
+  { params }: { params: Promise<{ storeId: string }> },
 ) {
   try {
     const { userId } = await auth();
+    const { storeId } = await params;
 
     if (!userId) {
       return NextResponse.json(
@@ -74,7 +76,7 @@ export async function DELETE(
       );
     }
 
-    if (!params.storeId) {
+    if (!storeId) {
       return NextResponse.json(
         {
           message: "Store id is required",
@@ -85,7 +87,7 @@ export async function DELETE(
 
     const res = await db.store.deleteMany({
       where: {
-        id: params.storeId,
+        id: storeId,
         userId,
       },
     });
