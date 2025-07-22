@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "./ui/custom/button";
 import { Check, Clipboard } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function TempCodeBlock({
   response,
@@ -15,6 +16,7 @@ export default function TempCodeBlock({
     const json = JSON.stringify(response, null, 2);
     navigator.clipboard.writeText(json);
     setCopied(true);
+    toast.success("Copied Store");
     setTimeout(() => setCopied(false), 1500);
   };
 

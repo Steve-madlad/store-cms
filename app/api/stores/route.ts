@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     }
 
     const res = await db.store.create({
-      data: { name: body.name, userId },
+      data: { name: name, userId },
     });
 
     return NextResponse.json(
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       },
     );
   } catch (error) {
-    console.log("error", error);
+    console.log("CREATE STORE error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

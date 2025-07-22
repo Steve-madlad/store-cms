@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export function TypographyH2({
+export function H2({
   children,
   className,
 }: {

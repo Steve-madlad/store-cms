@@ -44,12 +44,15 @@ export default function Combobox({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          <div className="flex-center gap-2">
+          <div className="align-center gap-2 overflow-hidden">
             {icon && icon}
-            {value
-              ? items.find((item) => item.value === value)?.label
-              : placeholder}
+            <span className="truncate">
+              {value
+                ? items.find((item) => item.value === value)?.label
+                : placeholder}
+            </span>
           </div>
+
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>

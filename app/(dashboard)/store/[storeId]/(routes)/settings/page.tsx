@@ -33,8 +33,7 @@ export default async function page({
 
   return (
     <div className="mb-7">
-      {/* settings for {response.name} */}
-      <SettingsForm />
+      <SettingsForm initialData={response} />
     </div>
   );
 }

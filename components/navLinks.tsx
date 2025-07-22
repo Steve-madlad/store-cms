@@ -10,6 +10,11 @@ export default function NavLinks() {
 
   const links = [
     {
+      title: "Overview",
+      href: `/store/${params.storeId}`,
+      active: pathname === `/store/${params.storeId}` ? true : false,
+    },
+    {
       title: "Settings",
       href: `/store/${params.storeId}/settings`,
       active: pathname === `/store/${params.storeId}/settings` ? true : false,
