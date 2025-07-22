@@ -24,6 +24,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import AlertCard from "@/components/alertCard";
+import { useOrigin } from "@/hooks/useOrigin";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -35,6 +36,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
 
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const formSchema = zod.object({
     name: zod.string().min(1),
@@ -147,8 +149,8 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
 
       <AlertCard
         className="mt-5"
-        title="Test"
-        description={"testing description"}
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/stores/${params.storeId}`}
         variant="public"
       />
     </div>

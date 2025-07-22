@@ -2,6 +2,28 @@ import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// export async function GET(
+//   request: Request,
+//   { params }: { params: Promise<{ storeId: string }> },
+// ) {
+//   console.log("here");
+//   const { storeId } = await params;
+
+//   const store = await db.store.findFirst({
+//     where: {
+//       id: storeId,
+//       userId: "user_3002Cz1xV9MUmaaq6Zl1BtREz0I",
+//     },
+//   });
+
+//   return NextResponse.json(
+//     {
+//       data: store,
+//     },
+//     { status: 201 },
+//   );
+// }
+
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ storeId: string }> },

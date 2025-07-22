@@ -55,7 +55,12 @@ export default function AlertCard({
           {description}
         </code>
 
-        <Button size={"icon"} onClick={handleCopy}>
+        <Button
+          variant={"outline"}
+          className="text-foreground"
+          size={"icon"}
+          onClick={handleCopy}
+        >
           {copied ? <Check className="!text-chart-2" /> : <Copy />}
         </Button>
       </AlertDescription>
