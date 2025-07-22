@@ -23,6 +23,7 @@ import { Input } from "@/components/ui/input";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
+import AlertCard from "@/components/alertCard";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -143,6 +144,13 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
           </Button>
         </form>
       </Form>
+
+      <AlertCard
+        className="mt-5"
+        title="Test"
+        description={"testing description"}
+        variant="public"
+      />
     </div>
   );
 }
