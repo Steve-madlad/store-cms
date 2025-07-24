@@ -25,9 +25,9 @@ export default function NavLinks() {
       active: pathname === `/store/${params.storeId}/orders` ? true : false,
     },
     {
-      title: "Cart",
-      href: `/store/${params.storeId}/cart`,
-      active: pathname === `/store/${params.storeId}/cart` ? true : false,
+      title: "Billboards",
+      href: `/store/${params.storeId}/billboards`,
+      active: pathname === `/store/${params.storeId}/billboards` ? true : false,
     },
   ];
 

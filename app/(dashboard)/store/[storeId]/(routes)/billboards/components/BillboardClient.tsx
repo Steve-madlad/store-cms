@@ -1,0 +1,43 @@
+"use client";
+
+import { Button } from "@/components/ui/custom/button";
+import { H2 } from "@/components/ui/Typography/heading2";
+import { P } from "@/components/ui/Typography/paragraph";
+import { Billboard } from "@prisma/client";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Plus } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import React from "react";
+
+export default function BillboardClient({
+  billboards,
+}: {
+  billboards: Billboard[];
+}) {
+  const router = useRouter();
+  const params = useParams();
+
+  console.log("billboards", billboards);
+
+  return (
+    <>
+      <div className="flex-between mb-2">
+        <div>
+          <H2>Billboards ({billboards.length})</H2>
+          <P className="text-muted-foreground">
+            Manage Billboards for Your Store
+          </P>
+        </div>
+
+        <Button
+          icon={<Plus />}
+          onClick={() => router.push(`/store/${params.storeId}/billboards/new`)}
+        >
+          Add New
+        </Button>
+      </div>
+
+      <Separator className="bg-border h-[1px]" />
+    </>
+  );
+}

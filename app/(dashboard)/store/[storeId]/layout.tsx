@@ -36,7 +36,7 @@ export default async function dashboardLayout({
   return (
     <>
       <Navbar />
-      <div className="px-6 py-4">
+      <div className="flex-col gap-6 px-6 py-4">
         {children}
         <TempCodeBlock response={response} />
       </div>

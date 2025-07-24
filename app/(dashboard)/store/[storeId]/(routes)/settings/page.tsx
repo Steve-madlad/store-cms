@@ -32,7 +32,7 @@ export default async function page({
   }
 
   return (
-    <div className="mb-7">
+    <div>
       <SettingsForm initialData={response} />
     </div>
   );

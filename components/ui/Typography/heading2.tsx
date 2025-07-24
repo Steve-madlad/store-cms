@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
 export function H2({
   children,
   className,
 }: {
-  children: string;
+  children: ReactNode;
   className?: string;
 }) {
   return (

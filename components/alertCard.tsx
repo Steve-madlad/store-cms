@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 interface AlertCardProps {
   title: string;
   description: string;
+  loading: boolean;
   variant: "public" | "admin";
   className?: string;
 }
@@ -30,13 +31,14 @@ const variantMap: Record<AlertCardProps["description"], BadgeVarients> = {
 export default function AlertCard({
   title,
   description,
+  loading,
   variant = "public",
   className,
 }: AlertCardProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    if (copied) return;
+    if (copied || loading) return;
     setCopied(true);
     navigator.clipboard.writeText(description);
     toast.success("Copied to clipboard");
@@ -50,10 +52,14 @@ export default function AlertCard({
         {title}
         <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
       </AlertTitle>
-      <AlertDescription className="flex-between mt-3">
-        <code className="bg-muted py[0.3rem] text-foreground relative rounded px-[0.3rem] font-mono text-sm font-semibold">
-          {description}
-        </code>
+      <AlertDescription className="flex-between mt-3 gap-4">
+        {loading ? (
+          <div className="h-3.5 w-3/4 animate-pulse rounded-full bg-gray-200"></div>
+        ) : (
+          <code className="bg-muted py[0.3rem] text-foreground relative rounded px-[0.3rem] font-mono text-sm font-semibold">
+            {description}
+          </code>
+        )}
 
         <Button
           variant={"outline"}

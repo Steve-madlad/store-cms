@@ -7,30 +7,24 @@ import { P } from "@/components/ui/Typography/paragraph";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";
-import type { Store } from "@prisma/client";
+import type { Billboard } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { Loader2, Trash } from "lucide-react";
 import { useState } from "react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import AlertCard from "@/components/alertCard";
 import { useOrigin } from "@/hooks/useOrigin";
+import { FormInputField as FormField } from "@/components/formField";
+import ImageUpload from "@/components/imageUpload";
 
 interface SettingsFormProps {
-  initialData: Store;
+  initialData: Billboard | null;
 }
 
-export default function SettingsForm({ initialData }: SettingsFormProps) {
+export default function BillboardForm({ initialData }: SettingsFormProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -38,24 +32,39 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
   const router = useRouter();
   const origin = useOrigin();
 
+  const title = initialData ? "Edit Billboard" : "Create billboard";
+  const description = initialData ? "Edit Billboard" : "Add a new billboard";
+  const toastMessage = initialData ? "Billboard updated" : "Billboard created";
+  const action = initialData ? "Save Changes" : "Create billboard";
+
   const formSchema = zod.object({
-    name: zod.string().min(1),
+    label: zod.string().min(1, "Label is required"),
+    imageUrl: zod.string().min(1, "Image URL is required"),
   });
 
-  type SettingsFormValues = zod.infer<typeof formSchema>;
+  type BillboardFormValues = zod.infer<typeof formSchema>;
 
-  const form = useForm<SettingsFormValues>({
+  const form = useForm<BillboardFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: initialData || {
+      label: "",
+      imageUrl: "",
+    },
   });
+
+  const { formState, getValues } = form;
+  console.log("errs", formState.errors);
+  console.log("vals", getValues());
 
   const handleDelete = async () => {
     setLoading(true);
     try {
-      const res = await axios.delete(`/api/stores/${params.storeId}`);
+      const res = await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`,
+      );
 
       if (res.status === 200) {
-        toast.success("Store Deleted.");
+        toast.success("Billboard Deleted.");
         router.refresh();
       }
     } catch (error) {
@@ -75,14 +84,20 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
     }
   };
 
-  const onSubmit = async (values: SettingsFormValues) => {
+  const onSubmit = async (values: BillboardFormValues) => {
     setLoading(true);
 
     try {
-      const res = await axios.patch(`/api/stores/${params.storeId}`, values);
+      let res;
+      if (initialData)
+        res = await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          values,
+        );
+      else res = await axios.post(`/api/${params.storeId}/billboards`, values);
 
       if (res.status === 200) {
-        toast.success("Store updated.");
+        toast.success(toastMessage);
         router.refresh();
       }
     } catch (error) {
@@ -106,13 +121,15 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
     <div>
       <div className="flex-between mb-2">
         <div>
-          <H2>Settings</H2>
-          <P className="text-muted-foreground">Manage Store Preferences</P>
+          <H2>{title}</H2>
+          <P className="text-muted-foreground">{description}</P>
         </div>
 
-        <Button variant={"destructive"} onClick={handleDelete}>
-          {loading ? <Loader2 className="animate-spin" /> : <Trash />}
-        </Button>
+        {initialData && (
+          <Button variant={"destructive"} onClick={handleDelete}>
+            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          </Button>
+        )}
       </div>
       <Separator />
 
@@ -121,28 +138,32 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            input={(field) => (
+              <ImageUpload
+                disabled={loading}
+                onChange={(url) => field.onChange(url)}
+                onRemove={() => field.onChange("")}
+                value={field.value ? [field.value] : []}
+                error={!!formState.errors.imageUrl}
+              />
+            )}
+            label="Image"
+            placeholder="Billboard label"
+          />
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="E-Commerce"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              name="label"
+              label="Label"
+              placeholder="Billboard label"
             />
           </div>
 
           <Button isLoading={loading} className="ml-auto" type="submit">
-            Save changes
+            {action}
           </Button>
         </form>
       </Form>
@@ -151,7 +172,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
         className="mt-5"
         title="NEXT_PUBLIC_API_URL"
         loading={origin ? false : true}
-        description={`${origin}/api/stores/${params.storeId}`}
+        description={`${origin}/api/stores/${params.storeId}/billboards/new`}
         variant="public"
       />
     </div>
