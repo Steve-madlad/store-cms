@@ -15,8 +15,6 @@ import { Form } from "@/components/ui/form";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
-import AlertCard from "@/components/alertCard";
-import { useOrigin } from "@/hooks/useOrigin";
 import { FormInputField as FormField } from "@/components/formField";
 import ImageUpload from "@/components/imageUpload";
 
@@ -25,12 +23,10 @@ interface SettingsFormProps {
 }
 
 export default function BillboardForm({ initialData }: SettingsFormProps) {
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
 
   const title = initialData ? "Edit Billboard" : "Create billboard";
   const description = initialData ? "Edit Billboard" : "Add a new billboard";
@@ -99,6 +95,7 @@ export default function BillboardForm({ initialData }: SettingsFormProps) {
       if (res.status === 200) {
         toast.success(toastMessage);
         router.refresh();
+        router.push(`/store/${params.storeId}/billboards`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -126,7 +123,7 @@ export default function BillboardForm({ initialData }: SettingsFormProps) {
         </div>
 
         {initialData && (
-          <Button variant={"destructive"} onClick={handleDelete}>
+          <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>
             {loading ? <Loader2 className="animate-spin" /> : <Trash />}
           </Button>
         )}
@@ -167,14 +164,6 @@ export default function BillboardForm({ initialData }: SettingsFormProps) {
           </Button>
         </form>
       </Form>
-
-      <AlertCard
-        className="mt-5"
-        title="NEXT_PUBLIC_API_URL"
-        loading={origin ? false : true}
-        description={`${origin}/api/stores/${params.storeId}/billboards/new`}
-        variant="public"
-      />
     </div>
   );
 }

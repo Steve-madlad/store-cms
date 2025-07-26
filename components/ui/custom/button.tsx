@@ -65,7 +65,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const isDisabled = isLoading || disabled;
     const Comp = asChild ? Slot : "button";
 
-    // Determine the content to render inside the button/slot
     let contentToRender: React.ReactNode;
 
     if (isLoading) {
@@ -102,15 +101,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={cn(
           buttonVariants({ variant, size, className }),
-          // Apply disabled styles via CSS for asChild
           isDisabled && asChild && "pointer-events-none opacity-50",
         )}
-        // Only pass disabled prop to the actual button element, not the Slot when asChild
         {...(!asChild && { disabled: isDisabled })}
         aria-disabled={isDisabled ? "true" : undefined}
         {...props}
       >
-        {/* If asChild and loading, wrap content in a span to ensure a single element for Slot */}
         {asChild && isLoading ? (
           <span className="inline-flex items-center gap-2">
             {contentToRender}

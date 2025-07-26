@@ -1,6 +1,4 @@
-import React from "react";
 import BillboardClient from "./components/BillboardClient";
-import axios from "axios";
 import db from "@/lib/prisma";
 
 export default async function billboards({
@@ -15,9 +13,25 @@ export default async function billboards({
       storeId,
     },
   });
+
+  const formatOptions: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  };
+
+  const formattedBillboards = billboards.map((billboard) => ({
+    id: billboard.id,
+    label: billboard.label,
+    createdAt: new Date(billboard.createdAt).toLocaleString(
+      "en-US",
+      formatOptions,
+    ),
+  }));
+
   return (
     <div>
-      <BillboardClient billboards={billboards} />
+      <BillboardClient billboards={formattedBillboards} />
     </div>
   );
 }

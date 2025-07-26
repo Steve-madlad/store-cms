@@ -3,21 +3,19 @@
 import { Button } from "@/components/ui/custom/button";
 import { H2 } from "@/components/ui/Typography/heading2";
 import { P } from "@/components/ui/Typography/paragraph";
-import { Billboard } from "@prisma/client";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import { BillboardColumn, columns } from "./BillboardColumns";
+import { DataTable } from "@/components/ui/data-table";
 
 export default function BillboardClient({
   billboards,
 }: {
-  billboards: Billboard[];
+  billboards: BillboardColumn[];
 }) {
   const router = useRouter();
   const params = useParams();
-
-  console.log("billboards", billboards);
 
   return (
     <>
@@ -38,6 +36,8 @@ export default function BillboardClient({
       </div>
 
       <Separator className="bg-border h-[1px]" />
+
+      <DataTable searchKey="label" columns={columns} data={billboards} />
     </>
   );
 }

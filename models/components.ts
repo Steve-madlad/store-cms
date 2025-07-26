@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export interface ModalProps {
   title: string;
   description: string;
@@ -27,4 +29,10 @@ export interface ComboboxProps {
   defaultValue?: Options;
   icon?: React.ReactNode;
   optionIcon?: boolean;
+}
+
+export interface DropdownOptionsProps {
+  label: string;
+  icon?: LucideIcon;
+  action: () => void;
 }
