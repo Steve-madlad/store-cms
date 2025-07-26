@@ -7,14 +7,7 @@ import { Check, Copy, Server } from "lucide-react";
 import { Button } from "./ui/custom/button";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
-
-interface AlertCardProps {
-  title: string;
-  description: string;
-  loading: boolean;
-  variant: "public" | "admin";
-  className?: string;
-}
+import type { AlertCardProps } from "@/models/components";
 
 type BadgeVarients = "default" | "secondary" | "destructive" | "outline";
 

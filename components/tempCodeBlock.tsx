@@ -21,7 +21,7 @@ export default function TempCodeBlock({
   };
 
   return (
-    <pre className="w-full overflow-hidden rounded-md bg-[#1d202d] pt-2 pr-2 sm:w-fit">
+    <pre className="mt-5 w-full overflow-hidden rounded-md bg-[#1d202d] pt-2 pr-2 sm:w-fit">
       <div className="just-end">
         <Button
           onClick={handleCopy}

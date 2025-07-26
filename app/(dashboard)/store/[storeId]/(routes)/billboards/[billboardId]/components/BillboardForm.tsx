@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
 import ImageUpload from "@/components/imageUpload";
+import Heading from "@/components/heading";
 
 interface SettingsFormProps {
   initialData: Billboard | null;
@@ -62,6 +63,7 @@ export default function BillboardForm({ initialData }: SettingsFormProps) {
       if (res.status === 200) {
         toast.success("Billboard Deleted.");
         router.refresh();
+        router.push(`/store/${params.storeId}/billboards`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -117,10 +119,7 @@ export default function BillboardForm({ initialData }: SettingsFormProps) {
   return (
     <div>
       <div className="flex-between mb-2">
-        <div>
-          <H2>{title}</H2>
-          <P className="text-muted-foreground">{description}</P>
-        </div>
+        <Heading header={title} description={description} />
 
         {initialData && (
           <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>

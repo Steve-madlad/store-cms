@@ -25,6 +25,7 @@ import toast from "react-hot-toast";
 import { useParams, useRouter } from "next/navigation";
 import AlertCard from "@/components/alertCard";
 import { useOrigin } from "@/hooks/useOrigin";
+import Heading from "@/components/heading";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -105,10 +106,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
   return (
     <div>
       <div className="flex-between mb-2">
-        <div>
-          <H2>Settings</H2>
-          <P className="text-muted-foreground">Manage Store Preferences</P>
-        </div>
+        <Heading header="Settings" description="Manage Store Preferences" />
 
         <Button variant={"destructive"} onClick={handleDelete}>
           {loading ? <Loader2 className="animate-spin" /> : <Trash />}
@@ -150,7 +148,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
       <AlertCard
         className="mt-5"
         title="NEXT_PUBLIC_API_URL"
-        loading={origin ? false : true}
+        loading={!origin}
         description={`${origin}/api/stores/${params.storeId}`}
         variant="public"
       />

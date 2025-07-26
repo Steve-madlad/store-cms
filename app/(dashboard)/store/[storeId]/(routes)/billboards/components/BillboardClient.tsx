@@ -8,6 +8,10 @@ import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { BillboardColumn, columns } from "./BillboardColumns";
 import { DataTable } from "@/components/ui/data-table";
+import Heading from "@/components/heading";
+import AlertCardSection from "@/components/alertCardSection";
+import { AlertCardProps } from "@/models/components";
+import { useOrigin } from "@/hooks/useOrigin";
 
 export default function BillboardClient({
   billboards,
@@ -17,15 +21,49 @@ export default function BillboardClient({
   const router = useRouter();
   const params = useParams();
 
+  const origin = useOrigin();
+  const baseUrl = `${origin}/api/${params.storeId}`;
+
+  const cardData: AlertCardProps[] = [
+    {
+      title: "GET",
+      description: `${baseUrl}/billboards`,
+      loading: !origin,
+      variant: "public",
+    },
+    {
+      title: "GET",
+      description: `${baseUrl}/billboards/{billboard-Id}`,
+      loading: !origin,
+      variant: "public",
+    },
+    {
+      title: "POST",
+      description: `${baseUrl}/billboards`,
+      loading: !origin,
+      variant: "admin",
+    },
+    {
+      title: "PATCH",
+      description: `${baseUrl}/billboards/{billboard-Id}`,
+      loading: !origin,
+      variant: "admin",
+    },
+    {
+      title: "DELETE",
+      description: `${baseUrl}/billboards/{billboard-Id}`,
+      loading: !origin,
+      variant: "admin",
+    },
+  ];
+
   return (
     <>
       <div className="flex-between mb-2">
-        <div>
-          <H2>Billboards ({billboards.length})</H2>
-          <P className="text-muted-foreground">
-            Manage Billboards for Your Store
-          </P>
-        </div>
+        <Heading
+          header={`Billboards (${billboards.length})`}
+          description=" Manage Billboards for Your Store"
+        />
 
         <Button
           icon={<Plus />}
@@ -38,6 +76,15 @@ export default function BillboardClient({
       <Separator className="bg-border h-[1px]" />
 
       <DataTable searchKey="label" columns={columns} data={billboards} />
+
+      <Heading
+        className="col mb-2 gap-2"
+        header="API"
+        description="API Calls for Billboards"
+        separator
+      />
+
+      <AlertCardSection className="mb-10" cards={cardData} />
     </>
   );
 }

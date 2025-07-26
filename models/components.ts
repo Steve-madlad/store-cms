@@ -14,6 +14,14 @@ export interface UseModalStore {
   onClose: () => void;
 }
 
+export interface AlertCardProps {
+  title: string;
+  description: string;
+  loading: boolean;
+  variant: "public" | "admin";
+  className?: string;
+}
+
 export interface Options {
   value: string;
   label: string;

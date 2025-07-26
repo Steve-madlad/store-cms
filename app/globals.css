@@ -137,7 +137,7 @@
   .just-end {
     @apply flex justify-end;
   }
-  .flex-col {
+  .col {
     @apply flex flex-col;
   }
   .col-center {
