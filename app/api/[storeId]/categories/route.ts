@@ -2,89 +2,10 @@ import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
-// export async function GET(
-//   request: Request,
-//   { params }: { params: Promise<{ storeId: string }> },
-// ) {
-//   console.log("here");
-//   const { storeId } = await params;
-
-//   const store = await db.store.findFirst({
-//     where: {
-//       id: storeId,
-//       userId: "user_3002Cz1xV9MUmaaq6Zl1BtREz0I",
-//     },
-//   });
-
-//   return NextResponse.json(
-//     {
-//       data: store,
-//     },
-//     { status: 201 },
-//   );
-// }
-
-export async function PATCH(
+export const GET = async (
   request: Request,
   { params }: { params: Promise<{ storeId: string }> },
-) {
-  try {
-    const { userId } = await auth();
-    const { storeId } = await params;
-
-    const body = await request.json();
-    const { name } = body;
-
-    if (!userId) {
-      return NextResponse.json(
-        {
-          message: "Unauthorized",
-        },
-        { status: 401 },
-      );
-    }
-
-    if (!name || !storeId) {
-      const message = `${!name ? "Name" : "Store id"} is required`;
-
-      return NextResponse.json(
-        {
-          message,
-        },
-        { status: 400 },
-      );
-    }
-
-    const res = await db.store.updateMany({
-      where: {
-        id: storeId,
-        userId,
-      },
-      data: { name },
-    });
-
-    return NextResponse.json(
-      {
-        message: "Store Updated successfully",
-        data: res,
-      },
-      {
-        status: 200,
-      },
-    );
-  } catch (error) {
-    console.log("PATCH STORE error", error);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 },
-    );
-  }
-}
-
-export async function DELETE(
-  request: Request,
-  { params }: { params: Promise<{ storeId: string }> },
-) {
+) => {
   try {
     const { userId } = await auth();
     const { storeId } = await params;
@@ -107,26 +28,108 @@ export async function DELETE(
       );
     }
 
-    const res = await db.store.deleteMany({
+    const res = await db.category.findMany({
       where: {
-        id: storeId,
-        userId,
+        storeId,
       },
     });
 
     return NextResponse.json(
       {
-        message: "Store Deleted successfully",
+        data: res,
       },
       {
         status: 200,
       },
     );
   } catch (error) {
-    console.log("DELETE STORE error", error);
+    console.log("GET Store Categories error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
     );
   }
-}
+};
+
+export const POST = async (
+  request: Request,
+  { params }: { params: Promise<{ storeId: string }> },
+) => {
+  try {
+    const { userId } = await auth();
+    const { storeId } = await params;
+
+    const body = await request.json();
+
+    const { name, billboardId } = body;
+
+    if (!userId) {
+      return NextResponse.json(
+        {
+          message: "Unauthorized",
+        },
+        { status: 401 },
+      );
+    }
+
+    if (!storeId) {
+      return NextResponse.json(
+        {
+          message: "Store id s required",
+        },
+        { status: 400 },
+      );
+    }
+
+    if (!name || !billboardId) {
+      const message = `${!name ? "Name" : "Billboard Id"} is required`;
+
+      return NextResponse.json(
+        {
+          message,
+        },
+        { status: 400 },
+      );
+    }
+
+    const storeIdExists = await db.store.findFirst({
+      where: {
+        id: storeId,
+        userId,
+      },
+    });
+
+    if (!storeIdExists) {
+      return NextResponse.json(
+        {
+          message: "Invalid Store id",
+        },
+        { status: 400 },
+      );
+    }
+
+    const res = await db.category.create({
+      data: {
+        name,
+        billboardId,
+        storeId,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "Category created successfully",
+        data: res,
+      },
+      {
+        status: 200,
+      },
+    );
+  } catch (error) {
+    console.log("GET Category error", error);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
+  }
+};

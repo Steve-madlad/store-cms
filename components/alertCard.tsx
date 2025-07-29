@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { Badge } from "./ui/badge";
-import { Check, Copy, Server } from "lucide-react";
+import { Check, Copy, Server, ShieldCheck } from "lucide-react";
 import { Button } from "./ui/custom/button";
 import { cn } from "@/lib/utils";
 import toast from "react-hot-toast";
@@ -44,6 +44,7 @@ export default function AlertCard({
       <AlertTitle className="align-center gap-x-2">
         {title}
         <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
+        {variant === "admin" && <ShieldCheck size={17} />}
       </AlertTitle>
       <AlertDescription className="flex-between mt-3 gap-4">
         {loading ? (

@@ -1,23 +1,20 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Copy, Edit } from "lucide-react";
-import { DropdownOptionsProps } from "@/models/components";
-import { useParams } from "next/navigation";
-import toast from "react-hot-toast";
-import { BillboardColumn } from "./BillboardColumns";
-import axios from "axios";
 import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import Dropdown from "@/components/ui/custom/dropdown";
+import { DropdownOptionsProps } from "@/models/components";
+import axios from "axios";
+import { Copy, Edit } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { CategoryColumn } from "./CategoryColumns";
 
-interface BillboardActionCellProps {
-  data: BillboardColumn;
+interface categoryActionCellProps {
+  data: CategoryColumn;
 }
 
-export default function BillboardActionCell({
-  data,
-}: BillboardActionCellProps) {
+export default function CategoryActionCell({ data }: categoryActionCellProps) {
   const router = useRouter();
   const params = useParams();
 
@@ -30,16 +27,16 @@ export default function BillboardActionCell({
     setLoading(true);
     try {
       const res = await axios.delete(
-        `/api/${params.storeId}/billboards/${data.id}`,
+        `/api/${params.storeId}/categories/${data.id}`,
       );
 
       if (res.status === 200) {
-        toast.success("Billboard Deleted.");
+        toast.success("Category Deleted.");
         router.refresh();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting billboard:", error);
+        console.log("Error deleting category:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -60,7 +57,7 @@ export default function BillboardActionCell({
       label: "Edit",
       icon: Edit,
       action: () => {
-        router.push(`/store/${storeId}/billboards/${data.id}`);
+        router.push(`/store/${storeId}/categories/${data.id}`);
       },
     },
     {

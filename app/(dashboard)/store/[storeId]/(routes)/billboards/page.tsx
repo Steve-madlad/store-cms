@@ -1,5 +1,6 @@
 import BillboardClient from "./components/BillboardClient";
 import db from "@/lib/prisma";
+import { BillboardColumn } from "./components/BillboardColumns";
 
 export default async function billboards({
   params,
@@ -20,14 +21,16 @@ export default async function billboards({
     year: "numeric",
   };
 
-  const formattedBillboards = billboards.map((billboard) => ({
-    id: billboard.id,
-    label: billboard.label,
-    createdAt: new Date(billboard.createdAt).toLocaleString(
-      "en-US",
-      formatOptions,
-    ),
-  }));
+  const formattedBillboards: BillboardColumn[] = billboards.map(
+    (billboard) => ({
+      id: billboard.id,
+      label: billboard.label,
+      createdAt: new Date(billboard.createdAt).toLocaleString(
+        "en-US",
+        formatOptions,
+      ),
+    }),
+  );
 
   return (
     <div>

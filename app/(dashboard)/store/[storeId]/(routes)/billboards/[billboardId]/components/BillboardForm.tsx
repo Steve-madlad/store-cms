@@ -19,11 +19,11 @@ import { FormInputField as FormField } from "@/components/formField";
 import ImageUpload from "@/components/imageUpload";
 import Heading from "@/components/heading";
 
-interface SettingsFormProps {
+interface BillboardFormProps {
   initialData: Billboard | null;
 }
 
-export default function BillboardForm({ initialData }: SettingsFormProps) {
+export default function BillboardForm({ initialData }: BillboardFormProps) {
   const [loading, setLoading] = useState(false);
 
   const params = useParams();

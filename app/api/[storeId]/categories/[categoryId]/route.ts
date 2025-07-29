@@ -4,23 +4,23 @@ import { NextResponse } from "next/server";
 
 export const GET = async (
   request: Request,
-  { params }: { params: Promise<{ billboardId: string }> },
+  { params }: { params: Promise<{ categoryId: string }> },
 ) => {
   try {
-    const { billboardId } = await params;
+    const { categoryId } = await params;
 
-    if (!billboardId) {
+    if (!categoryId) {
       return NextResponse.json(
         {
-          message: "Billboard id is required",
+          message: "Category id is required",
         },
         { status: 400 },
       );
     }
 
-    const res = await db.billboard.findUnique({
+    const res = await db.category.findUnique({
       where: {
-        id: billboardId,
+        id: categoryId,
       },
     });
 
@@ -33,7 +33,7 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Billboard error", error);
+    console.log("GET Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -43,15 +43,15 @@ export const GET = async (
 
 export const PATCH = async (
   request: Request,
-  { params }: { params: Promise<{ storeId: string; billboardId: string }> },
+  { params }: { params: Promise<{ storeId: string; categoryId: string }> },
 ) => {
   try {
     const { userId } = await auth();
-    const { storeId, billboardId } = await params;
+    const { storeId, categoryId } = await params;
 
     const body = await request.json();
 
-    const { label, imageUrl } = body;
+    const { name, billboardId } = body;
 
     if (!userId) {
       return NextResponse.json(
@@ -64,11 +64,11 @@ export const PATCH = async (
 
     if (
       !storeId ||
-      !billboardId ||
+      !categoryId ||
       storeId === "undefined" ||
-      billboardId === "undefined"
+      categoryId === "undefined"
     ) {
-      const message = `${!storeId ? "Store id" : "Billboard id"} is required`;
+      const message = `${!storeId ? "Store id" : "Category id"} is required`;
 
       return NextResponse.json(
         {
@@ -78,8 +78,8 @@ export const PATCH = async (
       );
     }
 
-    if (!label || !imageUrl) {
-      const message = `${!label ? "Label" : "Image URL"} is required`;
+    if (!name || !billboardId) {
+      const message = `${!name ? "Name" : "Billboard Id"} is required`;
 
       return NextResponse.json(
         {
@@ -105,19 +105,19 @@ export const PATCH = async (
       );
     }
 
-    const res = await db.billboard.updateMany({
+    const res = await db.category.updateMany({
       where: {
-        id: billboardId,
+        id: categoryId,
       },
       data: {
-        label,
-        imageUrl,
+        name,
+        billboardId,
       },
     });
 
     return NextResponse.json(
       {
-        message: "Billboard updated successfully",
+        message: "Category updated successfully",
         data: res,
       },
       {
@@ -125,7 +125,7 @@ export const PATCH = async (
       },
     );
   } catch (error) {
-    console.log("PATCH Billboard error", error);
+    console.log("PATCH Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -135,11 +135,11 @@ export const PATCH = async (
 
 export const DELETE = async (
   request: Request,
-  { params }: { params: Promise<{ storeId: string; billboardId: string }> },
+  { params }: { params: Promise<{ storeId: string; categoryId: string }> },
 ) => {
   try {
     const { userId } = await auth();
-    const { storeId, billboardId } = await params;
+    const { storeId, categoryId } = await params;
 
     if (!userId) {
       return NextResponse.json(
@@ -152,12 +152,11 @@ export const DELETE = async (
 
     if (
       !storeId ||
-      !billboardId ||
+      !categoryId ||
       storeId === "undefined" ||
-      billboardId === "undefined"
+      categoryId === "undefined"
     ) {
-      console.log("billboardId in condition", billboardId);
-      const message = `${!storeId ? "Store id" : "Billboard id"} is required`;
+      const message = `${!storeId ? "Store id" : "Category id"} is required`;
 
       return NextResponse.json(
         {
@@ -183,22 +182,22 @@ export const DELETE = async (
       );
     }
 
-    await db.billboard.deleteMany({
+    await db.category.deleteMany({
       where: {
-        id: billboardId,
+        id: categoryId,
       },
     });
 
     return NextResponse.json(
       {
-        message: "Billboard deleted successfully",
+        message: "Category deleted successfully",
       },
       {
         status: 200,
       },
     );
   } catch (error) {
-    console.log("DELETE Billboard error", error);
+    console.log("DELETE Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

@@ -6,15 +6,15 @@ import { Button } from "@/components/ui/custom/button";
 import { DataTable } from "@/components/ui/data-table";
 import { useOrigin } from "@/hooks/useOrigin";
 import { AlertCardProps } from "@/models/components";
-import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { BillboardColumn, columns } from "./BillboardColumns";
+import { CategoryColumn, columns } from "./CategoryColumns";
+import { Separator } from "@/components/ui/separator";
 
-export default function BillboardClient({
-  billboards,
+export default function CategoryClient({
+  categories,
 }: {
-  billboards: BillboardColumn[];
+  categories: CategoryColumn[];
 }) {
   const router = useRouter();
   const params = useParams();
@@ -25,31 +25,31 @@ export default function BillboardClient({
   const cardData: AlertCardProps[] = [
     {
       title: "GET",
-      description: `${baseUrl}/billboards`,
+      description: `${baseUrl}/categories`,
       loading: !origin,
       variant: "public",
     },
     {
       title: "GET",
-      description: `${baseUrl}/billboards/{billboard-Id}`,
+      description: `${baseUrl}/categories/{category-Id}`,
       loading: !origin,
       variant: "public",
     },
     {
       title: "POST",
-      description: `${baseUrl}/billboards`,
+      description: `${baseUrl}/categories`,
       loading: !origin,
       variant: "admin",
     },
     {
       title: "PATCH",
-      description: `${baseUrl}/billboards/{billboard-Id}`,
+      description: `${baseUrl}/categories/{category-Id}`,
       loading: !origin,
       variant: "admin",
     },
     {
       title: "DELETE",
-      description: `${baseUrl}/billboards/{billboard-Id}`,
+      description: `${baseUrl}/categories/{category-Id}`,
       loading: !origin,
       variant: "admin",
     },
@@ -59,13 +59,13 @@ export default function BillboardClient({
     <>
       <div className="flex-between mb-2">
         <Heading
-          header={`Billboards (${billboards.length})`}
-          description=" Manage Billboards for Your Store"
+          header={`Categories (${categories.length})`}
+          description=" Manage Categories for Your Store"
         />
 
         <Button
           icon={<Plus />}
-          onClick={() => router.push(`/store/${params.storeId}/billboards/new`)}
+          onClick={() => router.push(`/store/${params.storeId}/categories/new`)}
         >
           Add New
         </Button>
@@ -73,12 +73,12 @@ export default function BillboardClient({
 
       <Separator className="bg-border h-[1px]" />
 
-      <DataTable searchKey="label" columns={columns} data={billboards} />
+      <DataTable searchKey="name" columns={columns} data={categories} />
 
       <Heading
         className="col mb-2 gap-2"
         header="API"
-        description="API Calls for Billboards"
+        description="API Calls for Categories"
         separator
       />
 
