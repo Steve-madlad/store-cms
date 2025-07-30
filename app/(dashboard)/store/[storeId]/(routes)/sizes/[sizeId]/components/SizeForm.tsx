@@ -3,70 +3,64 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as zod from "zod";
+import type { Size } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import { Loader2, Trash } from "lucide-react";
+import { useState } from "react";
+import { Form } from "@/components/ui/form";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
-import { SelectDropdown } from "@/components/ui/custom/select";
-import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import type { Billboard, Category } from "@prisma/client";
-import axios from "axios";
-import { Loader2, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import * as zod from "zod";
 
-interface CategoryFormProps {
-  billboards: Billboard[];
-  initialData: Category | null;
+interface SizeFormProps {
+  initialData: Size | null;
 }
 
-export default function CategoryForm({
-  billboards,
-  initialData,
-}: CategoryFormProps) {
+export default function SizeForm({ initialData }: SizeFormProps) {
   const [loading, setLoading] = useState(false);
 
   const params = useParams();
   const router = useRouter();
 
-  const title = initialData ? "Edit Category" : "Create category";
-  const description = initialData ? "Edit Category" : "Add a new category";
-  const toastMessage = initialData ? "Category updated" : "Category created";
-  const action = initialData ? "Save Changes" : "Create Category";
+  const title = initialData ? "Edit Size" : "Create size";
+  const description = initialData ? "Edit Size" : "Add a new size";
+  const toastMessage = initialData ? "Size updated" : "Size created";
+  const action = initialData ? "Save Changes" : "Create size";
 
   const formSchema = zod.object({
     name: zod.string().trim().min(1, "Name is required"),
-    billboardId: zod.string().min(1, "Billboard is required"),
+    value: zod.string().trim().min(1, "Value is required"),
   });
 
-  type CategoryFormValues = zod.infer<typeof formSchema>;
+  type SizeFormValues = zod.infer<typeof formSchema>;
 
-  console.log("initialData", initialData);
-
-  const form = useForm<CategoryFormValues>({
+  const form = useForm<SizeFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
-      billboardId: "",
+      value: "",
     },
   });
 
-  const { formState } = form;
+  const { formState, getValues } = form;
+  console.log("errs", formState.errors);
+  console.log("vals", getValues());
 
-  console.log("form vals", form.getValues());
   const handleDelete = async () => {
     setLoading(true);
     try {
       const res = await axios.delete(
-        `/api/${params.storeId}/categories/${params.categoryId}`,
+        `/api/${params.storeId}/sizes/${params.sizeId}`,
       );
 
       if (res.status === 200) {
-        toast.success("Category Deleted.");
+        toast.success("Size Deleted.");
         router.refresh();
-        router.push(`/store/${params.storeId}/categories`);
+        router.push(`/store/${params.storeId}/sizes`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -85,22 +79,22 @@ export default function CategoryForm({
     }
   };
 
-  const onSubmit = async (values: CategoryFormValues) => {
+  const onSubmit = async (values: SizeFormValues) => {
     setLoading(true);
 
     try {
       let res;
       if (initialData)
         res = await axios.patch(
-          `/api/${params.storeId}/categories/${params.categoryId}`,
+          `/api/${params.storeId}/sizes/${params.sizeId}`,
           values,
         );
-      else res = await axios.post(`/api/${params.storeId}/categories`, values);
+      else res = await axios.post(`/api/${params.storeId}/sizes`, values);
 
       if (res.status === 200) {
         toast.success(toastMessage);
         router.refresh();
-        router.push(`/store/${params.storeId}/categories`);
+        router.push(`/store/${params.storeId}/sizes`);
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -142,30 +136,14 @@ export default function CategoryForm({
               control={form.control}
               name="name"
               label="Name"
-              placeholder="Category Name"
+              placeholder="Size Name"
             />
 
             <FormField
               control={form.control}
-              name="billboardId"
-              label="Billboard"
-              input={(field) => (
-                console.log("val", field.value),
-                console.log("boards", billboards),
-                (
-                  <SelectDropdown
-                    {...field}
-                    value={field.value}
-                    options={billboards.map((billboard) => ({
-                      label: billboard.label,
-                      value: billboard.id,
-                    }))}
-                    error={formState.errors.billboardId?.message}
-                    selectTrigger="Select a Billboard"
-                    className="w-full focus-visible:ring-1"
-                  />
-                )
-              )}
+              name="value"
+              label="Value"
+              placeholder="Size Value"
             />
           </div>
 

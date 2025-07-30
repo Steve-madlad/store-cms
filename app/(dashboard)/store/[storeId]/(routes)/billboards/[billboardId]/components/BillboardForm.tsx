@@ -35,7 +35,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
   const action = initialData ? "Save Changes" : "Create billboard";
 
   const formSchema = zod.object({
-    label: zod.string().min(1, "Label is required"),
+    label: zod.string().trim().min(1, "Label is required"),
     imageUrl: zod.string().min(1, "Image URL is required"),
   });
 
