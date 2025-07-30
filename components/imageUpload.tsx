@@ -23,7 +23,7 @@ interface resultProps {
   };
 }
 export default function ImageUpload({
-  disabled,
+  disabled = false,
   onChange,
   onRemove,
   value,
@@ -78,6 +78,7 @@ export default function ImageUpload({
               onClick={() => open()}
               className={`${error && "!border-destructive"} focus-visible:ring-1 ${!value.length && "!text-muted-foreground"} border-input border text-sm font-normal focus:ring-[1px]`}
               type="button"
+              disabled={disabled}
             >
               Upload Image
             </Button>

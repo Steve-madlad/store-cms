@@ -2,8 +2,6 @@
 
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
-import { H2 } from "@/components/ui/Typography/heading2";
-import { P } from "@/components/ui/Typography/paragraph";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as zod from "zod";

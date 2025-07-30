@@ -107,7 +107,7 @@ export async function DELETE(
       );
     }
 
-    const res = await db.store.deleteMany({
+    await db.store.deleteMany({
       where: {
         id: storeId,
         userId,
