@@ -30,6 +30,11 @@ export default function NavLinks() {
       active: pathname === `/store/${params.storeId}/sizes` ? true : false,
     },
     {
+      title: "Colors",
+      href: `/store/${params.storeId}/colors`,
+      active: pathname === `/store/${params.storeId}/colors` ? true : false,
+    },
+    {
       title: "Billboards",
       href: `/store/${params.storeId}/billboards`,
       active: pathname === `/store/${params.storeId}/billboards` ? true : false,

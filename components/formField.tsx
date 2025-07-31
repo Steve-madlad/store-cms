@@ -39,7 +39,7 @@ export function FormInputField<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="block w-full">
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             {input ? (
@@ -48,7 +48,7 @@ export function FormInputField<T extends FieldValues>({
               <Input
                 type={type}
                 placeholder={placeholder}
-                className={cn(className, "focus-visible:ring-1")}
+                className={cn(className, "my-2 mt-3 focus-visible:ring-1")}
                 {...field}
               />
             )}
