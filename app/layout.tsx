@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster as ToastProvider } from "react-hot-toast";
 import "./globals.css";
+import { Button } from "@/components/ui/custom/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,11 +38,15 @@ export default function RootLayout({
           <ClerkProvider>
             <SignedOut>
               <header className="flex h-16 items-center justify-end gap-4 p-4">
-                <SignInButton />
+                <SignInButton>
+                  <Button variant={"outline"} className="h-8 rounded-full">
+                    Sign In
+                  </Button>
+                </SignInButton>
                 <SignUpButton>
-                  <button className="h-8 cursor-pointer rounded-full bg-[#6c47ff] px-4 text-sm font-medium text-white sm:h-8 sm:px-5 sm:text-base">
+                  <Button className="h-8 cursor-pointer rounded-full px-4 text-sm font-medium sm:h-8 sm:px-5 sm:text-base">
                     Sign Up
-                  </button>
+                  </Button>
                 </SignUpButton>
                 <ThemeSwitch />
               </header>
