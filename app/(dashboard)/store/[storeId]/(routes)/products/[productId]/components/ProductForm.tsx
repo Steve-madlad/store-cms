@@ -287,7 +287,7 @@ export default function ProductForm({
                 return (
                   <Checkbox
                     {...fieldProps}
-                    checked={field.value}
+                    checked={value}
                     onCheckedChange={field.onChange}
                     className="cursor"
                     label="Featured"
@@ -306,7 +306,7 @@ export default function ProductForm({
                 return (
                   <Checkbox
                     {...fieldProps}
-                    checked={field.value}
+                    checked={value}
                     onCheckedChange={field.onChange}
                     className="cursor"
                     label="Archived"

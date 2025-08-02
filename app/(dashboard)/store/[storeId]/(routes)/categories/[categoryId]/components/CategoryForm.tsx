@@ -53,9 +53,6 @@ export default function CategoryForm({
     },
   });
 
-  const { formState } = form;
-
-  console.log("form vals", form.getValues());
   const handleDelete = async () => {
     setLoading(true);
     try {
