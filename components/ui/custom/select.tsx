@@ -11,30 +11,57 @@ import { cn } from "@/lib/utils";
 import type { Options } from "@/models/components";
 import { SelectProps } from "@radix-ui/react-select";
 
-interface SelectDropdownProps extends SelectProps {
+import { PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState, type AriaAttributes } from "react";
+import { Button } from "./button";
+
+interface SelectDropdownProps extends SelectProps, AriaAttributes {
   selectTrigger: string;
   selectLabel?: string;
-  options?: Options[];
+  createLabel?: string;
+  createUrl?: string;
+  options: Options[];
   value: string;
   onChange: (value: string) => void;
   error?: string;
+  id?: string;
   className?: string;
 }
 
 export function SelectDropdown({
   selectTrigger,
   selectLabel,
+  createLabel,
+  createUrl,
   options,
   value,
   onChange,
   error,
+  id,
   className,
+  ...props
 }: SelectDropdownProps) {
+  const router = useRouter();
+  const [open, setOpen] = useState(false);
+
+  const handleCreateClick = () => {
+    setOpen(false);
+    router.push(createUrl!);
+  };
+
   return (
-    <Select onValueChange={onChange} value={value}>
+    <Select
+      open={open}
+      onOpenChange={setOpen}
+      onValueChange={onChange}
+      value={value}
+      {...props}
+    >
       <SelectTrigger
+        id={id}
         className={cn(
-          `w-[180px] ${error && "!border-destructive focus:ring-destructive/25 focus-visible:ring-destructive/25"}`,
+          `w-full ${error || (props["aria-invalid"] && "!border-destructive focus:ring-destructive/25 focus-visible:ring-destructive/25 focus-visible:ring-1")}`,
           className,
         )}
       >
@@ -42,12 +69,27 @@ export function SelectDropdown({
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {selectLabel && <SelectLabel>{selectLabel}</SelectLabel>}
+          {(selectLabel || !options?.length) && (
+            <SelectLabel>
+              {options?.length ? selectLabel : "No options available"}
+            </SelectLabel>
+          )}
+
           {options &&
-            options.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
+            (!options.length && createUrl ? (
+              <Button
+                onClick={handleCreateClick}
+                className="just-start w-full items-center py-0"
+              >
+                <PlusCircle />
+                {createLabel}
+              </Button>
+            ) : (
+              options.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))
             ))}
         </SelectGroup>
       </SelectContent>

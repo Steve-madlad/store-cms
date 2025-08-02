@@ -3,19 +3,19 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import type { Billboard } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Loader2, Trash } from "lucide-react";
-import { useState } from "react";
-import { Form } from "@/components/ui/form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
-import ImageUpload from "@/components/imageUpload";
 import Heading from "@/components/heading";
+import ImageUpload from "@/components/imageUpload";
+import { Form } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Billboard } from "@prisma/client";
+import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as zod from "zod";
 
 interface BillboardFormProps {
   initialData: Billboard | null;
@@ -27,10 +27,10 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
   const params = useParams();
   const router = useRouter();
 
-  const title = initialData ? "Edit Billboard" : "Create billboard";
+  const title = initialData ? "Edit Billboard" : "Create Billboard";
   const description = initialData ? "Edit Billboard" : "Add a new billboard";
   const toastMessage = initialData ? "Billboard updated" : "Billboard created";
-  const action = initialData ? "Save Changes" : "Create billboard";
+  const action = initialData ? "Save Changes" : "Create Billboard";
 
   const formSchema = zod.object({
     label: zod.string().trim().min(1, "Label is required"),
@@ -132,21 +132,27 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <FormField
-            control={form.control}
-            name="imageUrl"
-            input={(field) => (
-              <ImageUpload
-                disabled={loading}
-                onChange={(url) => field.onChange(url)}
-                onRemove={() => field.onChange("")}
-                value={field.value ? [field.value] : []}
-                error={!!formState.errors.imageUrl}
-              />
-            )}
-            label="Image"
-            placeholder="Billboard label"
-          />
+          <div className="grid grid-cols-3 gap-8">
+            <FormField
+              control={form.control}
+              name="imageUrl"
+              id="imageUrl"
+              input={(field) => (
+                <ImageUpload
+                  disabled={loading}
+                  onChange={(url) => field.onChange(url)}
+                  onRemove={() => field.onChange("")}
+                  id="imageUrl"
+                  value={field.value ? [field.value] : []}
+                  error={!!formState.errors.imageUrl}
+                  className="!w-full"
+                />
+              )}
+              label="Image"
+              placeholder="Billboard label"
+            />
+          </div>
+
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}

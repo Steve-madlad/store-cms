@@ -149,22 +149,21 @@ export default function CategoryForm({
               control={form.control}
               name="billboardId"
               label="Billboard"
+              id="billboardId"
               input={(field) => (
-                console.log("val", field.value),
-                console.log("boards", billboards),
-                (
-                  <SelectDropdown
-                    {...field}
-                    value={field.value}
-                    options={billboards.map((billboard) => ({
-                      label: billboard.label,
-                      value: billboard.id,
-                    }))}
-                    error={formState.errors.billboardId?.message}
-                    selectTrigger="Select a Billboard"
-                    className="w-full focus-visible:ring-1"
-                  />
-                )
+                <SelectDropdown
+                  {...field}
+                  value={field.value}
+                  options={billboards.map((billboard) => ({
+                    label: billboard.label,
+                    value: billboard.id,
+                  }))}
+                  id="billboardId"
+                  selectTrigger="Select a Billboard"
+                  className="w-full focus-visible:ring-1"
+                  createLabel="Create Billboard"
+                  createUrl={`/store/${params.storeId}/billboards/new`}
+                />
               )}
             />
           </div>

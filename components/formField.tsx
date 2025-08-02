@@ -15,45 +15,59 @@ import type {
 import { cn } from "@/lib/utils";
 import type { HTMLInputTypeAttribute, ReactNode } from "react";
 
-interface FormInputFieldProps<T extends FieldValues> {
+interface FormInputFieldProps<
+  T extends FieldValues,
+  K extends Path<T> = Path<T>,
+> {
   control: Control<T>;
-  name: Path<T>;
-  input?: (field: ControllerRenderProps<T, Path<T>>) => ReactNode;
+  name: K;
+  input?: (field: ControllerRenderProps<T, K>) => ReactNode;
   label?: string;
   placeholder?: string;
+  id?: string;
   className?: string;
   type?: HTMLInputTypeAttribute;
 }
-
-export function FormInputField<T extends FieldValues>({
+export function FormInputField<
+  T extends FieldValues,
+  K extends Path<T> = Path<T>,
+>({
   control,
   name,
   input,
   label,
   placeholder,
+  id,
   className,
   type = "text",
-}: FormInputFieldProps<T>) {
+}: FormInputFieldProps<T, K>) {
+  const generatedId = id ?? `form-field-${name.toString().replace(/\./g, "-")}`;
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem className="block w-full">
-          {label && <FormLabel>{label}</FormLabel>}
+          {label && (
+            <FormLabel htmlFor={generatedId} className="mb-3">
+              {label}
+            </FormLabel>
+          )}
           <FormControl>
             {input ? (
               input(field)
             ) : (
               <Input
+                id={generatedId}
                 type={type}
                 placeholder={placeholder}
-                className={cn(className, "my-2 mt-3 focus-visible:ring-1")}
+                className={cn(className, "focus-visible:ring-1")}
                 {...field}
               />
             )}
           </FormControl>
-          <FormMessage className="text-destructive" />
+          <FormMessage className="text-destructive mt-2" />
         </FormItem>
       )}
     />

@@ -131,6 +131,9 @@
   .align-center {
     @apply flex items-center;
   }
+  .just-start {
+    @apply flex justify-start;
+  }
   .just-center {
     @apply flex justify-center;
   }

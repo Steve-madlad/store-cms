@@ -8,11 +8,14 @@ import {
   CldUploadWidget,
   CloudinaryUploadWidgetResults,
 } from "next-cloudinary";
+import { cn } from "@/lib/utils";
 
 interface ImageUploadProps {
+  className?: string;
   disabled: boolean;
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
+  id?: string;
   value: string[];
   error: boolean;
 }
@@ -22,10 +25,13 @@ interface resultProps {
     secure_url: string;
   };
 }
+
 export default function ImageUpload({
+  className,
   disabled = false,
   onChange,
   onRemove,
+  id,
   value,
   error,
 }: ImageUploadProps) {
@@ -62,7 +68,12 @@ export default function ImageUpload({
                 </Button>
               </div>
 
-              <Image fill alt="billboard" src={url} />
+              <Image
+                fill
+                className="object-cover"
+                alt="Uploaded image"
+                src={url}
+              />
             </div>
           ))}
         </div>
@@ -72,11 +83,15 @@ export default function ImageUpload({
         {({ open }) => {
           return (
             <Button
+              id={id}
               variant={error ? "outline" : "ghost"}
               icon={<ImagePlus />}
               isLoading={!open}
               onClick={() => open()}
-              className={`${error && "!border-destructive"} focus-visible:ring-1 ${!value.length && "!text-muted-foreground"} border-input border text-sm font-normal focus:ring-[1px]`}
+              className={cn(
+                className,
+                `${error && "!border-destructive focus:ring-destructive/20 focus-visible:ring-destructive/20"} dark:bg-input/30 shadow-xs focus-visible:ring-1 ${!value.length && "!text-muted-foreground"} just-start border-input w-[32%] border text-sm font-normal focus:ring-[1px]`,
+              )}
               type="button"
               disabled={disabled}
             >

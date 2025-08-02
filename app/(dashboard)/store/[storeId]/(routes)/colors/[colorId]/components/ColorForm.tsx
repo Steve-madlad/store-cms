@@ -151,10 +151,12 @@ export default function ColorForm({ initialData }: ColorFormProps) {
                 control={form.control}
                 name="value"
                 label="Value"
+                id="value"
                 input={(field) => (
                   <Input
                     {...field}
                     placeholder="Color Value"
+                    id="value"
                     onChange={(e) => {
                       const upper = e.target.value.toUpperCase();
                       setValue("value", upper, {

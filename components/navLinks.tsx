@@ -15,9 +15,9 @@ export default function NavLinks() {
       active: pathname === `/store/${params.storeId}` ? true : false,
     },
     {
-      title: "Settings",
-      href: `/store/${params.storeId}/settings`,
-      active: pathname === `/store/${params.storeId}/settings` ? true : false,
+      title: "Billboards",
+      href: `/store/${params.storeId}/billboards`,
+      active: pathname === `/store/${params.storeId}/billboards` ? true : false,
     },
     {
       title: "Categories",
@@ -35,9 +35,14 @@ export default function NavLinks() {
       active: pathname === `/store/${params.storeId}/colors` ? true : false,
     },
     {
-      title: "Billboards",
-      href: `/store/${params.storeId}/billboards`,
-      active: pathname === `/store/${params.storeId}/billboards` ? true : false,
+      title: "Products",
+      href: `/store/${params.storeId}/products`,
+      active: pathname === `/store/${params.storeId}/products` ? true : false,
+    },
+    {
+      title: "Settings",
+      href: `/store/${params.storeId}/settings`,
+      active: pathname === `/store/${params.storeId}/settings` ? true : false,
     },
   ];
 
