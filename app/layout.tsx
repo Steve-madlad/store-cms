@@ -39,18 +39,23 @@ export default function RootLayout({
             <SignedOut>
               <header className="flex h-16 items-center justify-end gap-4 p-4">
                 <SignInButton>
-                  <Button variant={"outline"} className="h-8 rounded-full">
+                  <Button
+                    variant={"outline"}
+                    className="h-8 w-25 rounded-full text-sm font-medium sm:px-5 sm:text-base"
+                  >
                     Sign In
                   </Button>
                 </SignInButton>
+
                 <SignUpButton>
-                  <Button className="h-8 cursor-pointer rounded-full px-4 text-sm font-medium sm:h-8 sm:px-5 sm:text-base">
+                  <Button className="h-8 w-25 cursor-pointer rounded-full px-4 text-sm font-medium sm:h-8 sm:px-5 sm:text-base">
                     Sign Up
                   </Button>
                 </SignUpButton>
                 <ThemeSwitch />
               </header>
             </SignedOut>
+
             <ToastProvider />
             <ModalProvider />
             {children}
