@@ -3,19 +3,19 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import type { Color } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Loader2, Trash } from "lucide-react";
-import { useState } from "react";
-import { Form } from "@/components/ui/form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
+import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Color } from "@prisma/client";
+import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as zod from "zod";
 
 interface ColorFormProps {
   initialData: Color | null;

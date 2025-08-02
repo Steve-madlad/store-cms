@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
-import React from "react";
 
 export default function NavLinks() {
   const pathname = usePathname();

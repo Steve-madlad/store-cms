@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import {
   FormControl,
   FormField,
@@ -6,14 +5,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import type { HTMLInputTypeAttribute, ReactNode } from "react";
 import type {
   Control,
   ControllerRenderProps,
   FieldValues,
   Path,
 } from "react-hook-form";
-import { cn } from "@/lib/utils";
-import type { HTMLInputTypeAttribute, ReactNode } from "react";
 
 interface FormInputFieldProps<
   T extends FieldValues,
