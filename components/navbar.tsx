@@ -1,11 +1,11 @@
-import { SignedIn, UserButton } from "@clerk/nextjs";
-import ThemeSwitch from "./themeSwitch";
-import NavLinks from "./navLinks";
-import { Options } from "@/models/components";
 import db from "@/lib/prisma";
+import { Options } from "@/models/components";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import NavLinks from "./navLinks";
 import StoreSelector from "./storeSelector";
+import ThemeSwitch from "./themeSwitch";
 
 export default async function Navbar() {
   const { userId } = await auth();
