@@ -20,7 +20,7 @@ export default function ThemeSwitch({ className }: { className?: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger className={cn(className)} asChild>
         <Button
-          className={`w-${isSignedIn ? "7" : "8"} h-${isSignedIn ? "7" : "8"} rounded-full focus-visible:ring-4`}
+          className={`${isSignedIn ? "size-7" : "size-8"} rounded-full focus-visible:ring-4`}
         >
           <Moon className="hidden dark:block" />
           <Sun className="dark:hidden" />
