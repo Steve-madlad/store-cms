@@ -146,7 +146,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
         className="mt-5"
         title="NEXT_PUBLIC_API_URL"
         loading={!origin}
-        description={`${origin}/api/stores/${params.storeId}`}
+        description={`${origin}/api/${params.storeId}`}
         variant="public"
       />
     </div>
