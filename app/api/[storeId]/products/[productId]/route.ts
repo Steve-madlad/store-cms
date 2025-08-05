@@ -30,6 +30,17 @@ export const GET = async (
       },
     });
 
+    if (!res) {
+      return NextResponse.json(
+        {
+          message: "Product not found",
+        },
+        {
+          status: 404,
+        },
+      );
+    }
+
     return NextResponse.json(
       {
         data: res,
