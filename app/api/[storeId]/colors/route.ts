@@ -7,17 +7,7 @@ export const GET = async (
   { params }: { params: Promise<{ storeId: string }> },
 ) => {
   try {
-    const { userId } = await auth();
     const { storeId } = await params;
-
-    if (!userId) {
-      return NextResponse.json(
-        {
-          message: "Unauthorized",
-        },
-        { status: 401 },
-      );
-    }
 
     if (!storeId) {
       return NextResponse.json(
