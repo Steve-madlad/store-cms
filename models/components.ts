@@ -14,6 +14,11 @@ export interface UseModalStore {
   onClose: () => void;
 }
 
+export interface ChartData {
+  name: string;
+  total: number;
+}
+
 export interface AlertCardProps {
   title: string;
   description: string;

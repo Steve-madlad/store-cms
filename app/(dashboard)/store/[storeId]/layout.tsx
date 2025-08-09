@@ -1,5 +1,4 @@
 import Navbar from "@/components/navbar";
-import TempCodeBlock from "@/components/tempCodeBlock";
 import db from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -27,8 +26,6 @@ export default async function dashboardLayout({
     },
   });
 
-  console.log("response for id param", response);
-
   if (!response) {
     redirect("/");
   }
@@ -36,10 +33,7 @@ export default async function dashboardLayout({
   return (
     <>
       <Navbar />
-      <div className="flex-col gap-6 px-6 py-4">
-        {children}
-        <TempCodeBlock response={response} />
-      </div>
+      <div className="flex-col gap-6 px-6 py-4">{children}</div>
     </>
   );
 }

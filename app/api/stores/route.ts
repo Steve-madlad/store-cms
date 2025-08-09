@@ -41,7 +41,6 @@ export async function POST(request: Request) {
       },
     );
   } catch (error) {
-    console.log("CREATE STORE error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

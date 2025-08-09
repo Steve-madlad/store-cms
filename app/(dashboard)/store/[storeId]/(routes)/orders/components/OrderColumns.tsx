@@ -39,6 +39,10 @@ export const columns: ColumnDef<OrderColumn>[] = [
     header: "Payment Status",
   },
   {
+    accessorKey: "phone",
+    header: "Phone Number",
+  },
+  {
     accessorKey: "address",
     header: "Address",
   },

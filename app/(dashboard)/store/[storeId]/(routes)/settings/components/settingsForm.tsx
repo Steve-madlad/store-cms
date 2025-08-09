@@ -58,7 +58,6 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting store:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -85,7 +84,6 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error updating store:", error);
         const status = error?.status;
         toast.error(
           status === 405

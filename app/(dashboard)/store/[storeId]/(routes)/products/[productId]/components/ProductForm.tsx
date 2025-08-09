@@ -47,8 +47,6 @@ export default function ProductForm({
   const toastMessage = initialData ? "Product updated" : "Product created";
   const action = initialData ? "Save Changes" : "Create Product";
 
-  console.log("categories", categories);
-
   const categoryOptions = categories.map((category) => ({
     label: category.name,
     value: category.id,
@@ -97,7 +95,6 @@ export default function ProductForm({
   });
 
   const { formState, getValues } = form;
-  console.log("vals", getValues());
 
   const handleDelete = async () => {
     setLoading(true);
@@ -113,7 +110,6 @@ export default function ProductForm({
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting store:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -147,7 +143,6 @@ export default function ProductForm({
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error updating store:", error);
         const status = error?.status;
         toast.error(
           status === 405

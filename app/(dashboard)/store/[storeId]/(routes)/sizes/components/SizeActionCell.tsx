@@ -34,7 +34,6 @@ export default function SizeActionCell({ data }: SizeActionCellProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting size:", error);
         const status = error?.status;
         toast.error(
           status === 405

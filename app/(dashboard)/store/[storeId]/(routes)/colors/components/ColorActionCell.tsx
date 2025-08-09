@@ -36,7 +36,6 @@ export default function ColorActionCell({ data }: ColorActionCellProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting color:", error);
         const status = error?.status;
         toast.error(
           status === 405

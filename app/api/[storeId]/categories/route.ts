@@ -33,7 +33,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Store Categories error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -116,7 +115,6 @@ export const POST = async (
       },
     );
   } catch (error) {
-    console.log("GET Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

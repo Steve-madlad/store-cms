@@ -47,8 +47,6 @@ export default function SizeForm({ initialData }: SizeFormProps) {
   });
 
   const { formState, getValues } = form;
-  console.log("errs", formState.errors);
-  console.log("vals", getValues());
 
   const handleDelete = async () => {
     setLoading(true);
@@ -64,7 +62,6 @@ export default function SizeForm({ initialData }: SizeFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting store:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -98,7 +95,6 @@ export default function SizeForm({ initialData }: SizeFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error updating store:", error);
         const status = error?.status;
         toast.error(
           status === 405

@@ -43,8 +43,6 @@ export default function CategoryForm({
 
   type CategoryFormValues = zod.infer<typeof formSchema>;
 
-  console.log("initialData", initialData);
-
   const form = useForm<CategoryFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
@@ -67,7 +65,6 @@ export default function CategoryForm({
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting store:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -101,7 +98,6 @@ export default function CategoryForm({
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error updating store:", error);
         const status = error?.status;
         toast.error(
           status === 405

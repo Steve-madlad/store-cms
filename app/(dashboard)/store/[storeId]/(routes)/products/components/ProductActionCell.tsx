@@ -37,7 +37,6 @@ export default function ProductActionCell({ data }: ProductActionCellProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting product:", error);
         const status = error?.status;
         toast.error(
           status === 405

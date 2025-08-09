@@ -33,7 +33,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Store Billboards error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -48,8 +47,6 @@ export const POST = async (
   try {
     const { userId } = await auth();
     const { storeId } = await params;
-
-    console.log("store id", storeId);
 
     const body = await request.json();
 
@@ -118,7 +115,6 @@ export const POST = async (
       },
     );
   } catch (error) {
-    console.log("GET Billboard error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

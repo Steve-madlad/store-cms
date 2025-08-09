@@ -33,7 +33,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Billboard error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -125,7 +124,6 @@ export const PATCH = async (
       },
     );
   } catch (error) {
-    console.log("PATCH Billboard error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -156,7 +154,6 @@ export const DELETE = async (
       storeId === "undefined" ||
       billboardId === "undefined"
     ) {
-      console.log("billboardId in condition", billboardId);
       const message = `${!storeId ? "Store id" : "Billboard id"} is required`;
 
       return NextResponse.json(
@@ -198,7 +195,6 @@ export const DELETE = async (
       },
     );
   } catch (error) {
-    console.log("DELETE Billboard error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

@@ -36,7 +36,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -128,7 +127,6 @@ export const PATCH = async (
       },
     );
   } catch (error) {
-    console.log("PATCH Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -200,7 +198,6 @@ export const DELETE = async (
       },
     );
   } catch (error) {
-    console.log("DELETE Category error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

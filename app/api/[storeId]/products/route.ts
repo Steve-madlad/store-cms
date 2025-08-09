@@ -53,7 +53,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Store Products error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -161,7 +160,6 @@ export const POST = async (
       },
     );
   } catch (error) {
-    console.log("GET Product error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

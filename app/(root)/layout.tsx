@@ -24,7 +24,5 @@ export default async function layout({
     redirect(`/store/${response.id}`);
   }
 
-  console.log("first store in layout", response);
-
   return <>{children}</>;
 }

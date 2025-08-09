@@ -33,7 +33,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Color error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -125,7 +124,6 @@ export const PATCH = async (
       },
     );
   } catch (error) {
-    console.log("PATCH Color error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -156,7 +154,6 @@ export const DELETE = async (
       storeId === "undefined" ||
       colorId === "undefined"
     ) {
-      console.log("colorId in condition", colorId);
       const message = `${!storeId ? "Store id" : "Color id"} is required`;
 
       return NextResponse.json(
@@ -198,7 +195,6 @@ export const DELETE = async (
       },
     );
   } catch (error) {
-    console.log("DELETE Color error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

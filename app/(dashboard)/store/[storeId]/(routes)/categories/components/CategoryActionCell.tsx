@@ -36,7 +36,6 @@ export default function CategoryActionCell({ data }: categoryActionCellProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting category:", error);
         const status = error?.status;
         toast.error(
           status === 405

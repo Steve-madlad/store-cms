@@ -6,7 +6,6 @@ import { NextResponse } from "next/server";
 //   request: Request,
 //   { params }: { params: Promise<{ storeId: string }> },
 // ) {
-//   console.log("here");
 //   const { storeId } = await params;
 
 //   const store = await db.store.findFirst({
@@ -73,7 +72,6 @@ export async function PATCH(
       },
     );
   } catch (error) {
-    console.log("PATCH STORE error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -123,7 +121,6 @@ export async function DELETE(
       },
     );
   } catch (error) {
-    console.log("DELETE STORE error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

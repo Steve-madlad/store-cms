@@ -54,8 +54,6 @@ export default function ColorForm({ initialData }: ColorFormProps) {
   });
 
   const { formState, getValues, setValue } = form;
-  console.log("errs", formState.errors);
-  console.log("vals", getValues());
 
   const handleDelete = async () => {
     setLoading(true);
@@ -71,7 +69,6 @@ export default function ColorForm({ initialData }: ColorFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting store:", error);
         const status = error?.status;
         toast.error(
           status === 405
@@ -105,7 +102,6 @@ export default function ColorForm({ initialData }: ColorFormProps) {
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error updating store:", error);
         const status = error?.status;
         toast.error(
           status === 405

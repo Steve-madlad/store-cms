@@ -33,7 +33,6 @@ export const GET = async (
       },
     );
   } catch (error) {
-    console.log("GET Size error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -125,7 +124,6 @@ export const PATCH = async (
       },
     );
   } catch (error) {
-    console.log("PATCH Size error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -156,7 +154,6 @@ export const DELETE = async (
       storeId === "undefined" ||
       sizeId === "undefined"
     ) {
-      console.log("sizeId in condition", sizeId);
       const message = `${!storeId ? "Store id" : "Size id"} is required`;
 
       return NextResponse.json(
@@ -198,7 +195,6 @@ export const DELETE = async (
       },
     );
   } catch (error) {
-    console.log("DELETE Size error", error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

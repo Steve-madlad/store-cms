@@ -39,7 +39,6 @@ export default function BillboardActionCell({
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        console.log("Error deleting billboard:", error);
         const status = error?.status;
         toast.error(
           status === 405
