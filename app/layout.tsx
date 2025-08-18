@@ -8,6 +8,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster as ToastProvider } from "react-hot-toast";
 import "./globals.css";
 import { Button } from "@/components/ui/custom/button";
+import ProgressProvider from "@/components/providers/progressProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,7 +59,7 @@ export default function RootLayout({
 
             <ToastProvider />
             <ModalProvider />
-            {children}
+            <ProgressProvider>{children}</ProgressProvider>
           </ClerkProvider>
         </ThemeProvider>
       </body>

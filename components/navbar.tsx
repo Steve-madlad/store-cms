@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import NavLinks from "./navLinks";
 import StoreSelector from "./storeSelector";
 import ThemeSwitch from "./themeSwitch";
+import Sidebar from "./ui/custom/sidebar";
 
 export default async function Navbar() {
   const { userId } = await auth();
@@ -30,10 +31,11 @@ export default async function Navbar() {
       <StoreSelector storeOptions={storeOptions} />
 
       <NavLinks />
-      <div className="flex-center ml-auto">
+      <div className="flex-center ml-auto space-x-2">
         <SignedIn>
           <UserButton />
-          <ThemeSwitch className="ml-2" />
+          <ThemeSwitch />
+          <Sidebar />
         </SignedIn>
       </div>
     </div>

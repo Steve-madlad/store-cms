@@ -51,7 +51,7 @@ export default function NavLinks() {
   ];
 
   return (
-    <div className="flex-center gap-6">
+    <div className="xy-center hidden gap-6 lg:flex">
       {links.map((link) => (
         <Link
           className={`${link.active ? "font-semibold" : "text-muted-foreground"} hover:text-foreground`}
