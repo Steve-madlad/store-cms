@@ -2,7 +2,7 @@
 
 import { ProgressProvider as AppProgressProvider } from "@bprogress/next/app";
 import { useTheme } from "next-themes";
-import { ReactNode, Suspense, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 export default function ProgressBarProvider({
   children,
@@ -17,13 +17,11 @@ export default function ProgressBarProvider({
   }, []);
 
   return (
-    // <Suspense>
     <AppProgressProvider
       options={{ showSpinner: false }}
       color={mounted && theme.resolvedTheme === "light" ? "black" : "white"}
     >
       {children}
     </AppProgressProvider>
-    // {/* </Suspense> */}
   );
 }

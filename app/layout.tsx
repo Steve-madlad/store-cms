@@ -8,7 +8,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster as ToastProvider } from "react-hot-toast";
 import "./globals.css";
 import { Button } from "@/components/ui/custom/button";
-import ProgressBarProvider from "@/components/providers/progressProvider";
+import ProgressBarProvider from "@/components/providers/progressBarProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
