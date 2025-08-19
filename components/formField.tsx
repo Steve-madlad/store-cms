@@ -24,6 +24,7 @@ interface FormInputFieldProps<
   input?: (field: ControllerRenderProps<T, K>) => ReactNode;
   label?: string;
   placeholder?: string;
+  disabled?: boolean;
   id?: string;
   className?: string;
   type?: HTMLInputTypeAttribute;
@@ -37,6 +38,7 @@ export function FormInputField<
   input,
   label,
   placeholder,
+  disabled,
   id,
   className,
   type = "text",
@@ -50,7 +52,11 @@ export function FormInputField<
       render={({ field }) => (
         <FormItem className="block w-full">
           {label && (
-            <FormLabel htmlFor={generatedId} className="mb-3">
+            <FormLabel
+              htmlFor={generatedId}
+              aria-disabled={disabled}
+              className={`mb-3 ${disabled && "text-muted-foreground"}`}
+            >
               {label}
             </FormLabel>
           )}
@@ -62,6 +68,7 @@ export function FormInputField<
                 id={generatedId}
                 type={type}
                 placeholder={placeholder}
+                disabled={disabled}
                 className={cn(className, "focus-visible:ring-1")}
                 {...field}
               />

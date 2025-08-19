@@ -50,7 +50,9 @@ export const POST = async (
 
     const body = await request.json();
 
-    const { label, imageUrl } = body;
+    const { label, labelColor, imageUrl } = body;
+
+    const hexMatch = labelColor?.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);
 
     if (!userId) {
       return NextResponse.json(
@@ -70,8 +72,11 @@ export const POST = async (
       );
     }
 
-    if (!label || !imageUrl) {
-      const message = `${!label ? "Label" : "Image URL"} is required`;
+    if (!label || !imageUrl || (labelColor && !hexMatch)) {
+      const message =
+        labelColor && !hexMatch
+          ? "Not a valid hex color"
+          : `${!label ? "Label" : "Image URL"} is required`;
 
       return NextResponse.json(
         {
@@ -100,6 +105,7 @@ export const POST = async (
     const res = await db.billboard.create({
       data: {
         label,
+        labelColor,
         imageUrl,
         storeId,
       },

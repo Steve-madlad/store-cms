@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
+import ColorPickerInput from "@/components/colorPickerInput";
 import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
 import ImageUpload from "@/components/imageUpload";
@@ -34,6 +35,12 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
 
   const formSchema = zod.object({
     label: zod.string().trim().min(1, "Label is required"),
+    labelColor: zod
+      .string()
+      .trim()
+      .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Not a valid Hex Color")
+      .nullable()
+      .optional(),
     imageUrl: zod.string().min(1, "Image URL is required"),
   });
 
@@ -43,11 +50,12 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       label: "",
+      labelColor: "#FFFFFF",
       imageUrl: "",
     },
   });
 
-  const { formState, getValues } = form;
+  const { formState } = form;
 
   const handleDelete = async () => {
     setLoading(true);
@@ -149,12 +157,31 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="label"
               label="Label"
+              disabled={loading}
               placeholder="Billboard label"
+            />
+
+            <FormField
+              control={form.control}
+              name="labelColor"
+              label="Label Hex Color"
+              id="labelColor"
+              disabled={loading}
+              input={(field) => (
+                <ColorPickerInput
+                  {...field}
+                  value={field.value ? field.value : undefined}
+                  id={"labelColor"}
+                  disabled={loading}
+                  placeholder="Billboard label Color"
+                  error={form.formState.errors.labelColor}
+                />
+              )}
             />
           </div>
 

@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as zod from "zod";
+import ColorPicker from "@/components/ui/colorPicker";
 
 interface ColorFormProps {
   initialData: Color | null;
@@ -134,7 +135,7 @@ export default function ColorForm({ initialData }: ColorFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="name"
@@ -164,9 +165,16 @@ export default function ColorForm({ initialData }: ColorFormProps) {
                 )}
                 className="w-full"
               />
+
+              <ColorPicker
+                className="mt-6.5"
+                defaultValue={getValues().value}
+              />
+
               <div
-                className={`mt-6 h-8 w-[35px] rounded-full ${!formState.errors.value && getValues().value ? "border-primary border" : "!bg-transparent"}`}
-                style={{ backgroundColor: form.getValues().value }}
+                title={getValues().value}
+                className={`mt-7 h-8 min-w-8 rounded-full ${!formState.errors.value && getValues().value ? "border-primary border" : "hidden"}`}
+                style={{ backgroundColor: getValues().value }}
               />
             </div>
           </div>
