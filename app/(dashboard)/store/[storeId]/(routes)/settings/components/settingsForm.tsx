@@ -3,27 +3,21 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import type { Store } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Loader2, Trash } from "lucide-react";
-import { useState } from "react";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 import AlertCard from "@/components/alertCard";
-import { useOrigin } from "@/hooks/useOrigin";
+import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
+import { Form } from "@/components/ui/form";
+import { useModalStore } from "@/hooks/useModalStore";
+import { useOrigin } from "@/hooks/useOrigin";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Store } from "@prisma/client";
+import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as zod from "zod";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -31,13 +25,15 @@ interface SettingsFormProps {
 
 export default function SettingsForm({ initialData }: SettingsFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
   const origin = useOrigin();
 
   const formSchema = zod.object({
-    name: zod.string().min(1),
+    name: zod.string().min(1, "Store Name is required."),
   });
 
   type SettingsFormValues = zod.infer<typeof formSchema>;
@@ -48,7 +44,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
   });
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(`/api/stores/${params.storeId}`);
 
@@ -68,7 +64,8 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -103,9 +100,19 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
       <div className="flex-between mb-2">
         <Heading header="Settings" description="Manage Store Preferences" />
 
-        <Button variant={"destructive"} onClick={handleDelete}>
-          {loading ? <Loader2 className="animate-spin" /> : <Trash />}
-        </Button>
+        {initialData && (
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
+          </Button>
+        )}
       </div>
       <Separator />
 
@@ -118,19 +125,9 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="E-Commerce"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Store Name"
+              disabled={loading || isLoading}
+              placeholder="E-Commerce"
             />
           </div>
 

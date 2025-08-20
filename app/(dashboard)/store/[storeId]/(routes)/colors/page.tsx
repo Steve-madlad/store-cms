@@ -28,9 +28,5 @@ export default async function colors({
     createdAt: new Date(color.createdAt).toLocaleString("en-US", formatOptions),
   }));
 
-  return (
-    <div>
-      <ColorClient colors={formattedColors} />
-    </div>
-  );
+  return <ColorClient colors={formattedColors} />;
 }

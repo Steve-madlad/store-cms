@@ -42,9 +42,5 @@ export default async function products({
     ),
   }));
 
-  return (
-    <div>
-      <ProductClient products={formattedProducts} />
-    </div>
-  );
+  return <ProductClient products={formattedProducts} />;
 }

@@ -33,9 +33,5 @@ export default async function billboards({
     }),
   );
 
-  return (
-    <div>
-      <BillboardClient billboards={formattedBillboards} />
-    </div>
-  );
+  return <BillboardClient billboards={formattedBillboards} />;
 }

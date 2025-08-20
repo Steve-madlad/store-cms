@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as zod from "zod";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface BillboardFormProps {
   initialData: Billboard | null;
@@ -24,6 +25,8 @@ interface BillboardFormProps {
 
 export default function BillboardForm({ initialData }: BillboardFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
@@ -39,7 +42,6 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
       .string()
       .trim()
       .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Not a valid Hex Color")
-      .nullable()
       .optional(),
     imageUrl: zod.string().min(1, "Image URL is required"),
   });
@@ -58,7 +60,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
   const { formState } = form;
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/billboards/${params.billboardId}`,
@@ -81,7 +83,8 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -124,8 +127,16 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
         <Heading header={title} description={description} />
 
         {initialData && (
-          <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>
-            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
           </Button>
         )}
       </div>
@@ -143,7 +154,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
               id="imageUrl"
               input={(field) => (
                 <ImageUpload
-                  disabled={loading}
+                  disabled={loading || isLoading}
                   onChange={(url) => field.onChange(url)}
                   onRemove={() => field.onChange("")}
                   id="imageUrl"
@@ -162,7 +173,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
               control={form.control}
               name="label"
               label="Label"
-              disabled={loading}
+              disabled={loading || isLoading}
               placeholder="Billboard label"
             />
 
@@ -171,13 +182,13 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
               name="labelColor"
               label="Label Hex Color"
               id="labelColor"
-              disabled={loading}
+              disabled={loading || isLoading}
               input={(field) => (
                 <ColorPickerInput
                   {...field}
                   value={field.value ? field.value : undefined}
                   id={"labelColor"}
-                  disabled={loading}
+                  disabled={loading || isLoading}
                   placeholder="Billboard label Color"
                   error={form.formState.errors.labelColor}
                 />
@@ -185,7 +196,11 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
             />
           </div>
 
-          <Button isLoading={loading} className="ml-auto" type="submit">
+          <Button
+            isLoading={loading || isLoading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

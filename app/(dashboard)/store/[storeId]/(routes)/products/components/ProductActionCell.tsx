@@ -1,15 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Copy, Edit } from "lucide-react";
+import Dropdown from "@/components/ui/custom/dropdown";
+import { useModalStore } from "@/hooks/useModalStore";
 import { DropdownOptionsProps } from "@/models/components";
-import { useParams } from "next/navigation";
+import axios from "axios";
+import { Copy, Edit } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { ProductColumn } from "./ProductColumns";
-import axios from "axios";
-import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
-import Dropdown from "@/components/ui/custom/dropdown";
 
 interface ProductActionCellProps {
   data: ProductColumn;
@@ -19,13 +17,12 @@ export default function ProductActionCell({ data }: ProductActionCellProps) {
   const router = useRouter();
   const params = useParams();
 
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { loadingStart, loadingEnd, onClose, openModal } = useModalStore();
 
   const { storeId } = params;
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/products/${data.id}`,
@@ -47,8 +44,8 @@ export default function ProductActionCell({ data }: ProductActionCellProps) {
         );
       }
     } finally {
-      setLoading(false);
-      setOpen(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -71,14 +68,9 @@ export default function ProductActionCell({ data }: ProductActionCellProps) {
   ];
 
   return (
-    <>
-      <Dropdown options={actions} onDelete={() => setOpen(true)} />
-      <ConfirmationDialog
-        open={open}
-        setOpen={setOpen}
-        onConfirm={handleDelete}
-        loading={loading}
-      />
-    </>
+    <Dropdown
+      options={actions}
+      onDelete={() => openModal("confirmation", handleDelete)}
+    />
   );
 }

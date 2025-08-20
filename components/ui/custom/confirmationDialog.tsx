@@ -7,18 +7,17 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Dispatch, SetStateAction } from "react";
 import { Button } from "./button";
 
 interface ConfirmationDialogProps {
   open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
 }
 export default function ConfirmationDialog({
   open,
-  setOpen,
+  onClose,
   onConfirm,
   loading,
 }: ConfirmationDialogProps) {
@@ -33,7 +32,7 @@ export default function ConfirmationDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading} onClick={() => setOpen(false)}>
+          <AlertDialogCancel disabled={loading} onClick={onClose}>
             Cancel
           </AlertDialogCancel>
           <Button

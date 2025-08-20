@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as zod from "zod";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface CategoryFormProps {
   billboards: Billboard[];
@@ -27,6 +28,8 @@ export default function CategoryForm({
   initialData,
 }: CategoryFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
@@ -52,7 +55,7 @@ export default function CategoryForm({
   });
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/categories/${params.categoryId}`,
@@ -75,7 +78,8 @@ export default function CategoryForm({
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -118,8 +122,16 @@ export default function CategoryForm({
         <Heading header={title} description={description} />
 
         {initialData && (
-          <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>
-            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
           </Button>
         )}
       </div>
@@ -135,6 +147,7 @@ export default function CategoryForm({
               control={form.control}
               name="name"
               label="Name"
+              disabled={loading || isLoading}
               placeholder="Category Name"
             />
 
@@ -151,6 +164,7 @@ export default function CategoryForm({
                     label: billboard.label,
                     value: billboard.id,
                   }))}
+                  disabled={loading || isLoading}
                   id="billboardId"
                   selectTrigger="Select a Billboard"
                   className="w-full focus-visible:ring-1"
@@ -161,7 +175,11 @@ export default function CategoryForm({
             />
           </div>
 
-          <Button isLoading={loading} className="ml-auto" type="submit">
+          <Button
+            isLoading={loading || isLoading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

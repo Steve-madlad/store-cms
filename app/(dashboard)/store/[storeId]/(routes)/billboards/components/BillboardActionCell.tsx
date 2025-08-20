@@ -1,15 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Copy, Edit } from "lucide-react";
+import Dropdown from "@/components/ui/custom/dropdown";
+import { useModalStore } from "@/hooks/useModalStore";
 import { DropdownOptionsProps } from "@/models/components";
-import { useParams } from "next/navigation";
+import axios from "axios";
+import { Copy, Edit } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { BillboardColumn } from "./BillboardColumns";
-import axios from "axios";
-import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
-import Dropdown from "@/components/ui/custom/dropdown";
 
 interface BillboardActionCellProps {
   data: BillboardColumn;
@@ -21,13 +19,12 @@ export default function BillboardActionCell({
   const router = useRouter();
   const params = useParams();
 
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { loadingStart, loadingEnd, onClose, openModal } = useModalStore();
 
   const { storeId } = params;
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/billboards/${data.id}`,
@@ -49,8 +46,8 @@ export default function BillboardActionCell({
         );
       }
     } finally {
-      setLoading(false);
-      setOpen(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -73,14 +70,9 @@ export default function BillboardActionCell({
   ];
 
   return (
-    <>
-      <Dropdown options={actions} onDelete={() => setOpen(true)} />
-      <ConfirmationDialog
-        open={open}
-        setOpen={setOpen}
-        onConfirm={handleDelete}
-        loading={loading}
-      />
-    </>
+    <Dropdown
+      options={actions}
+      onDelete={() => openModal("confirmation", handleDelete)}
+    />
   );
 }

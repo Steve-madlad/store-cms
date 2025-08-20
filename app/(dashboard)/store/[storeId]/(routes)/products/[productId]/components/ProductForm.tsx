@@ -3,21 +3,22 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import type { Category, Color, Image, Product, Size } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Loader2, Trash } from "lucide-react";
-import { useState } from "react";
-import { Form } from "@/components/ui/form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
-import ImageUpload from "@/components/imageUpload";
 import Heading from "@/components/heading";
-import { SelectDropdown } from "@/components/ui/custom/select";
+import ImageUpload from "@/components/imageUpload";
 import Checkbox from "@/components/ui/custom/checkbox";
+import { SelectDropdown } from "@/components/ui/custom/select";
+import { Form } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Category, Color, Image, Product, Size } from "@prisma/client";
+import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as zod from "zod";
+import { useModalStore } from "@/hooks/useModalStore";
 
 type ProductFormData = Omit<Product, "price"> & {
   price: number;
@@ -38,6 +39,8 @@ export default function ProductForm({
   colors,
 }: ProductFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
@@ -94,10 +97,10 @@ export default function ProductForm({
         },
   });
 
-  const { formState, getValues } = form;
+  const { formState } = form;
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/products/${params.productId}`,
@@ -120,7 +123,8 @@ export default function ProductForm({
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -163,8 +167,16 @@ export default function ProductForm({
         <Heading header={title} description={description} />
 
         {initialData && (
-          <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>
-            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
           </Button>
         )}
       </div>
@@ -181,7 +193,7 @@ export default function ProductForm({
             id="images"
             input={() => (
               <ImageUpload
-                disabled={loading}
+                disabled={loading || isLoading}
                 onChange={(url) => {
                   const currentImages = form.getValues("images");
                   const updatedImages = [...currentImages, { url }];
@@ -212,6 +224,7 @@ export default function ProductForm({
               control={form.control}
               name="name"
               label="Name"
+              disabled={loading || isLoading}
               placeholder="Product Name"
             />
 
@@ -220,6 +233,7 @@ export default function ProductForm({
               name="price"
               label="Price"
               type="number"
+              disabled={loading || isLoading}
               placeholder="product price"
             />
 
@@ -228,12 +242,14 @@ export default function ProductForm({
               name="categoryId"
               label="Categories"
               id="categoryId"
+              disabled={loading || isLoading}
               input={(field) => (
                 <SelectDropdown
                   {...field}
                   id="categoryId"
                   selectTrigger="Select Categories"
                   options={categoryOptions ?? []}
+                  disabled={loading || isLoading}
                   createLabel="Create Category"
                   createUrl={`/store/${params.storeId}/categories/new`}
                 />
@@ -245,12 +261,14 @@ export default function ProductForm({
               name="sizeId"
               id="sizeId"
               label="Sizes"
+              disabled={loading || isLoading}
               input={(field) => (
                 <SelectDropdown
                   {...field}
                   selectTrigger="Select Sizes"
                   options={sizeOptions ?? []}
                   id="sizeId"
+                  disabled={loading || isLoading}
                   createLabel="Create Size"
                   createUrl={`/store/${params.storeId}/sizes/new`}
                 />
@@ -262,12 +280,14 @@ export default function ProductForm({
               name="colorId"
               label="Colors"
               id="colorId"
+              disabled={loading || isLoading}
               input={(field) => (
                 <SelectDropdown
                   {...field}
                   id="colorId"
                   selectTrigger="Select Colors"
                   options={colorOptions ?? []}
+                  disabled={loading || isLoading}
                   createLabel="Create Color"
                   createUrl={`/store/${params.storeId}/colors/new`}
                 />
@@ -277,6 +297,7 @@ export default function ProductForm({
             <FormField
               control={form.control}
               name="isFeatured"
+              disabled={loading || isLoading}
               input={(field) => {
                 const { value, ...fieldProps } = field;
                 return (
@@ -286,6 +307,7 @@ export default function ProductForm({
                     onCheckedChange={field.onChange}
                     className="cursor"
                     label="Featured"
+                    disabled={loading || isLoading}
                     description="Highlight this product on the homepage to boost visibility."
                   />
                 );
@@ -296,6 +318,7 @@ export default function ProductForm({
             <FormField
               control={form.control}
               name="isArchived"
+              disabled={loading || isLoading}
               input={(field) => {
                 const { value, ...fieldProps } = field;
                 return (
@@ -305,6 +328,7 @@ export default function ProductForm({
                     onCheckedChange={field.onChange}
                     className="cursor"
                     label="Archived"
+                    disabled={loading || isLoading}
                     description="Hide this product from public catalog and search results."
                   />
                 );

@@ -28,9 +28,5 @@ export default async function sizes({
     createdAt: new Date(size.createdAt).toLocaleString("en-US", formatOptions),
   }));
 
-  return (
-    <div>
-      <SizeClient sizes={formattedSizes} />
-    </div>
-  );
+  return <SizeClient sizes={formattedSizes} />;
 }

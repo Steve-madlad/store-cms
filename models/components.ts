@@ -8,9 +8,16 @@ export interface ModalProps {
   children: React.ReactNode;
 }
 
+export type ModalTypes = "create store" | "confirmation";
+
 export interface UseModalStore {
   isOpen: boolean;
-  openModal: () => void;
+  modalType?: ModalTypes;
+  isLoading: boolean;
+  modalAction?: (() => void) | null;
+  loadingStart: () => void;
+  loadingEnd: () => void;
+  openModal: (modalType?: ModalTypes, modalAction?: () => void) => void;
   onClose: () => void;
 }
 

@@ -43,9 +43,5 @@ export default async function orders({
     createdAt: readableDateFormat.format(order.createdAt),
   }));
 
-  return (
-    <div>
-      <OrderClient orders={formattedOrders} />
-    </div>
-  );
+  return <OrderClient orders={formattedOrders} />;
 }

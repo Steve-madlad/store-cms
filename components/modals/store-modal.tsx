@@ -1,30 +1,23 @@
 "use client";
 
+import { FormInputField as FormField } from "@/components/formField";
 import { useModalStore } from "@/hooks/useModalStore";
-import Modal from "../ui/custom/modal";
-import * as zod from "zod";
-import axios from "axios";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { useState } from "react";
-import { Button } from "../ui/custom/button";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import * as zod from "zod";
+import { Button } from "../ui/custom/button";
+import Modal from "../ui/custom/modal";
+import { Form } from "../ui/form";
 
 export default function StoreModal() {
   const storeModal = useModalStore();
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const formSchema = zod.object({
-    name: zod.string().min(2, "Store name is required"),
+    name: zod.string().min(1, "Store Name is required"),
   });
 
   const form = useForm<zod.infer<typeof formSchema>>({
@@ -35,13 +28,15 @@ export default function StoreModal() {
   });
 
   const onSubmit = async (values: zod.infer<typeof formSchema>) => {
-    setLoading(true);
+    storeModal.loadingStart();
     try {
       const res = await axios.post("/api/stores", values);
 
       if (res.status === 200) {
         form.reset();
-        window.location.assign(`/store/${res.data.data.id}`);
+        toast.success("Store created.");
+        storeModal.onClose();
+        router.push(`/store/${res.data.data.id}`);
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -52,7 +47,7 @@ export default function StoreModal() {
         );
       }
     } finally {
-      setLoading(false);
+      storeModal.loadingEnd();
     }
   };
 
@@ -63,35 +58,30 @@ export default function StoreModal() {
       isOpen={storeModal.isOpen}
       onClose={storeModal.onClose}
     >
-      Create Store Form
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-3">
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input
-                    disabled={loading}
-                    placeholder="E-Commerce"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Store Name"
+            disabled={storeModal.isLoading}
+            placeholder="E-Commerce"
           />
 
           <div className="flex justify-end gap-2">
-            <Button disabled={loading} variant={"outline"}>
+            <Button
+              onClick={storeModal.onClose}
+              type="button"
+              disabled={storeModal.isLoading}
+              variant={"outline"}
+            >
               Cancel
             </Button>
+
             <Button
               iconRight
               loadingText="Saving"
-              isLoading={loading}
+              isLoading={storeModal.isLoading}
               type="submit"
             >
               Submit

@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
+import ColorPickerInput from "@/components/colorPickerInput";
 import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Color } from "@prisma/client";
 import axios from "axios";
@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as zod from "zod";
-import ColorPicker from "@/components/ui/colorPicker";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface ColorFormProps {
   initialData: Color | null;
@@ -24,6 +24,8 @@ interface ColorFormProps {
 
 export default function ColorForm({ initialData }: ColorFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
@@ -54,10 +56,8 @@ export default function ColorForm({ initialData }: ColorFormProps) {
     },
   });
 
-  const { formState, getValues, setValue } = form;
-
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/colors/${params.colorId}`,
@@ -80,7 +80,8 @@ export default function ColorForm({ initialData }: ColorFormProps) {
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -123,8 +124,16 @@ export default function ColorForm({ initialData }: ColorFormProps) {
         <Heading header={title} description={description} />
 
         {initialData && (
-          <Button variant={"destructive"} color={"icon"} onClick={handleDelete}>
-            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
           </Button>
         )}
       </div>
@@ -140,46 +149,34 @@ export default function ColorForm({ initialData }: ColorFormProps) {
               control={form.control}
               name="name"
               label="Name"
+              disabled={loading || isLoading}
               placeholder="Color Name"
             />
 
-            <div className="flex gap-4">
-              <FormField
-                control={form.control}
-                name="value"
-                label="Value"
-                id="value"
-                input={(field) => (
-                  <Input
-                    {...field}
-                    placeholder="Color Value"
-                    id="value"
-                    onChange={(e) => {
-                      const upper = e.target.value.toUpperCase();
-                      setValue("value", upper, {
-                        shouldValidate: true,
-                      });
-                    }}
-                    className={"my-2 focus-visible:ring-1"}
-                  />
-                )}
-                className="w-full"
-              />
-
-              <ColorPicker
-                className="mt-6.5"
-                defaultValue={getValues().value}
-              />
-
-              <div
-                title={getValues().value}
-                className={`mt-7 h-8 min-w-8 rounded-full ${!formState.errors.value && getValues().value ? "border-primary border" : "hidden"}`}
-                style={{ backgroundColor: getValues().value }}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="value"
+              label="Hex Value"
+              id="value"
+              disabled={loading || isLoading}
+              input={(field) => (
+                <ColorPickerInput
+                  {...field}
+                  value={field.value ? field.value : undefined}
+                  id={"value"}
+                  disabled={loading || isLoading}
+                  placeholder="Color Value"
+                  error={form.formState.errors.value}
+                />
+              )}
+            />
           </div>
 
-          <Button isLoading={loading} className="ml-auto" type="submit">
+          <Button
+            isLoading={loading || isLoading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

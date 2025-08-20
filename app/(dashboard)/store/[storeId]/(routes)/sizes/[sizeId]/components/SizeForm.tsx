@@ -3,18 +3,19 @@
 import { Button } from "@/components/ui/custom/button";
 import { Separator } from "@/components/ui/separator";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as zod from "zod";
-import type { Size } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import { Loader2, Trash } from "lucide-react";
-import { useState } from "react";
-import { Form } from "@/components/ui/form";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useParams, useRouter } from "next/navigation";
 import { FormInputField as FormField } from "@/components/formField";
 import Heading from "@/components/heading";
+import { Form } from "@/components/ui/form";
+import { useModalStore } from "@/hooks/useModalStore";
+import { zodResolver } from "@hookform/resolvers/zod";
+import type { Size } from "@prisma/client";
+import axios from "axios";
+import { Loader2, Trash } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import * as zod from "zod";
 
 interface SizeFormProps {
   initialData: Size | null;
@@ -22,6 +23,8 @@ interface SizeFormProps {
 
 export default function SizeForm({ initialData }: SizeFormProps) {
   const [loading, setLoading] = useState(false);
+  const { isLoading, loadingStart, loadingEnd, openModal, onClose } =
+    useModalStore();
 
   const params = useParams();
   const router = useRouter();
@@ -46,10 +49,8 @@ export default function SizeForm({ initialData }: SizeFormProps) {
     },
   });
 
-  const { formState, getValues } = form;
-
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/sizes/${params.sizeId}`,
@@ -72,7 +73,8 @@ export default function SizeForm({ initialData }: SizeFormProps) {
         );
       }
     } finally {
-      setLoading(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -115,8 +117,16 @@ export default function SizeForm({ initialData }: SizeFormProps) {
         <Heading header={title} description={description} />
 
         {initialData && (
-          <Button variant={"destructive"} size={"icon"} onClick={handleDelete}>
-            {loading ? <Loader2 className="animate-spin" /> : <Trash />}
+          <Button
+            variant={"destructive"}
+            size={"icon"}
+            onClick={() => openModal("confirmation", handleDelete)}
+          >
+            {loading || isLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <Trash />
+            )}
           </Button>
         )}
       </div>
@@ -132,6 +142,7 @@ export default function SizeForm({ initialData }: SizeFormProps) {
               control={form.control}
               name="name"
               label="Name"
+              disabled={loading || isLoading}
               placeholder="Size Name"
             />
 
@@ -139,11 +150,16 @@ export default function SizeForm({ initialData }: SizeFormProps) {
               control={form.control}
               name="value"
               label="Value"
+              disabled={loading || isLoading}
               placeholder="Size Value"
             />
           </div>
 
-          <Button isLoading={loading} className="ml-auto" type="submit">
+          <Button
+            isLoading={loading || isLoading}
+            className="ml-auto"
+            type="submit"
+          >
             {action}
           </Button>
         </form>

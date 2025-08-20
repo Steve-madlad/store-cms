@@ -31,9 +31,5 @@ export default async function page({
     redirect("/");
   }
 
-  return (
-    <div>
-      <SettingsForm initialData={response} />
-    </div>
-  );
+  return <SettingsForm initialData={response} />;
 }

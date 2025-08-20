@@ -94,7 +94,7 @@ export default function Combobox({
               <CommandList>
                 <CommandItem
                   className="align-center text-foreground py-2 font-semibold"
-                  onSelect={onCreate}
+                  onSelect={() => onCreate()}
                 >
                   <PlusCircle className="text-foreground !size-4 translate-y-[0.5px]" />
                   {createPrompt}

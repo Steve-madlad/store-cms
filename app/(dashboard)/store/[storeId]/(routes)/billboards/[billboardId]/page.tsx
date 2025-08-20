@@ -15,9 +15,5 @@ export default async function page({
     },
   });
 
-  return (
-    <div>
-      <BillboardForm initialData={response} />
-    </div>
-  );
+  return <BillboardForm initialData={response} />;
 }

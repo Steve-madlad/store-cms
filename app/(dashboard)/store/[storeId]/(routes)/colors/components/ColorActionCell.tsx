@@ -9,6 +9,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { colorColumn } from "./ColorColumns";
+import { useModalStore } from "@/hooks/useModalStore";
 
 interface ColorActionCellProps {
   data: colorColumn;
@@ -18,13 +19,12 @@ export default function ColorActionCell({ data }: ColorActionCellProps) {
   const router = useRouter();
   const params = useParams();
 
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const { loadingStart, loadingEnd, onClose, openModal } = useModalStore();
 
   const { storeId } = params;
 
   const handleDelete = async () => {
-    setLoading(true);
+    loadingStart();
     try {
       const res = await axios.delete(
         `/api/${params.storeId}/colors/${data.id}`,
@@ -46,8 +46,8 @@ export default function ColorActionCell({ data }: ColorActionCellProps) {
         );
       }
     } finally {
-      setLoading(false);
-      setOpen(false);
+      loadingEnd();
+      onClose();
     }
   };
 
@@ -70,14 +70,9 @@ export default function ColorActionCell({ data }: ColorActionCellProps) {
   ];
 
   return (
-    <>
-      <Dropdown options={actions} onDelete={() => setOpen(true)} />
-      <ConfirmationDialog
-        open={open}
-        setOpen={setOpen}
-        onConfirm={handleDelete}
-        loading={loading}
-      />
-    </>
+    <Dropdown
+      options={actions}
+      onDelete={() => openModal("confirmation", handleDelete)}
+    />
   );
 }

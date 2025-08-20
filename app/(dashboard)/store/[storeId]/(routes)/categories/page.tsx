@@ -32,9 +32,5 @@ export default async function categories({
     ),
   }));
 
-  return (
-    <div>
-      <CategoryClient categories={formattedcategories} />
-    </div>
-  );
+  return <CategoryClient categories={formattedcategories} />;
 }

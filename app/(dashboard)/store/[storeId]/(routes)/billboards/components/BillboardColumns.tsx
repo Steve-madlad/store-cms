@@ -6,7 +6,7 @@ import BillboardActionCell from "./BillboardActionCell";
 export type BillboardColumn = {
   id: string;
   label: string;
-  labelColor: string | null;
+  labelColor: string;
   createdAt: string;
 };
 
@@ -26,7 +26,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
           <div>{color}</div>
           <div
             className="border-primary size-6 rounded-full border"
-            style={{ backgroundColor: color ?? "white" }}
+            style={{ backgroundColor: color }}
           />
         </div>
       );

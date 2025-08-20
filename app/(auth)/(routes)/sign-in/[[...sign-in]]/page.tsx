@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 export default function Page() {
   const { isLoaded } = useUser();
   return (
-    <div className="flex-center min-h-[calc(100vh-4rem)]">
+    <div className="flex-center min-h-[calc(100vh-4rem)] px-5">
       {isLoaded ? (
         <SignIn />
       ) : (
