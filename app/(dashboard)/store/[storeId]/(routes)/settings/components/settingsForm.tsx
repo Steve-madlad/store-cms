@@ -122,7 +122,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid max-w-3xl gap-5 sm:grid-cols-2 sm:gap-8">
             <FormField
               control={form.control}
               name="name"

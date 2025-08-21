@@ -144,7 +144,7 @@ export default function ColorForm({ initialData }: ColorFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <div className="grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-2">
+          <div className="grid max-w-3xl gap-8 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="name"

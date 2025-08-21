@@ -187,39 +187,42 @@ export default function ProductForm({
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <FormField
-            control={form.control}
-            name="images"
-            id="images"
-            input={() => (
-              <ImageUpload
-                disabled={loading || isLoading}
-                onChange={(url) => {
-                  const currentImages = form.getValues("images");
-                  const updatedImages = [...currentImages, { url }];
-                  form.setValue("images", updatedImages, {
-                    shouldValidate: true,
-                    shouldTouch: true,
-                  });
-                }}
-                onRemove={(url) => {
-                  const filtered = form
-                    .getValues("images")
-                    .filter((img) => img.url !== url);
-                  form.setValue("images", filtered, {
-                    shouldValidate: true,
-                    shouldTouch: true,
-                  });
-                }}
-                id="images"
-                value={form.watch("images").map((image) => image.url)}
-                error={!!formState.errors.images}
-              />
-            )}
-            label="Image"
-          />
+          <div className="mb-5 grid gap-5 sm:mb-8 sm:gap-8 lg:grid-cols-3">
+            <FormField
+              control={form.control}
+              name="images"
+              id="images"
+              input={() => (
+                <ImageUpload
+                  disabled={loading || isLoading}
+                  onChange={(url) => {
+                    const currentImages = form.getValues("images");
+                    const updatedImages = [...currentImages, { url }];
+                    form.setValue("images", updatedImages, {
+                      shouldValidate: true,
+                      shouldTouch: true,
+                    });
+                  }}
+                  onRemove={(url) => {
+                    const filtered = form
+                      .getValues("images")
+                      .filter((img) => img.url !== url);
+                    form.setValue("images", filtered, {
+                      shouldValidate: true,
+                      shouldTouch: true,
+                    });
+                  }}
+                  className="!w-full"
+                  id="images"
+                  value={form.watch("images").map((image) => image.url)}
+                  error={!!formState.errors.images}
+                />
+              )}
+              label="Image"
+            />
+          </div>
 
-          <div className="grid grid-cols-3 gap-8">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
             <FormField
               control={form.control}
               name="name"

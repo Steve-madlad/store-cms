@@ -1,15 +1,13 @@
 "use client";
 
-import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import Dropdown from "@/components/ui/custom/dropdown";
+import { useModalStore } from "@/hooks/useModalStore";
 import { DropdownOptionsProps } from "@/models/components";
 import axios from "axios";
 import { Copy, Edit } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
 import toast from "react-hot-toast";
 import { sizeColumn } from "./SizeColumns";
-import { useModalStore } from "@/hooks/useModalStore";
 
 interface SizeActionCellProps {
   data: sizeColumn;

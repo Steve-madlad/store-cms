@@ -93,6 +93,7 @@ export async function POST(
       { headers: corsHeaders },
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },

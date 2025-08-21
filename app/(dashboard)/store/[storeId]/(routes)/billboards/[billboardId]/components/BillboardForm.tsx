@@ -147,7 +147,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="mt-4 w-full space-y-4"
         >
-          <div className="grid grid-cols-3 gap-8">
+          <div className="mb-5">
             <FormField
               control={form.control}
               name="imageUrl"
@@ -160,7 +160,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
                   id="imageUrl"
                   value={field.value ? [field.value] : []}
                   error={!!formState.errors.imageUrl}
-                  className="!w-full"
+                  className="!w-full transition-none sm:!w-[47.5%] sm:max-w-92"
                 />
               )}
               label="Image"
@@ -168,7 +168,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
             />
           </div>
 
-          <div className="grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-2">
+          <div className="grid max-w-3xl gap-5 sm:grid-cols-2 sm:gap-8">
             <FormField
               control={form.control}
               name="label"

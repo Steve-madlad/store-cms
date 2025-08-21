@@ -50,6 +50,7 @@ export const GET = async (
       },
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -180,6 +181,7 @@ export const PATCH = async (
       },
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
@@ -251,6 +253,7 @@ export const DELETE = async (
       },
     );
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { message: "Internal server error" },
       { status: 500 },
