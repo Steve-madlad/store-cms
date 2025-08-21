@@ -3,7 +3,7 @@
 import { Options } from "@/models/components";
 import Combobox from "./ui/custom/combobox";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { Store } from "lucide-react";
 
 export default function StoreSelector({
@@ -14,12 +14,18 @@ export default function StoreSelector({
   const storeModal = useModalStore();
   const params = useParams();
   const router = useRouter();
+  const pathName = usePathname();
 
   const returnMatch = (key: unknown, redirect: boolean = false) => {
     const match = storeOptions.find((option) => option.value === key);
     if (redirect) {
       if (match) {
-        router.push(`/store/${match.value}`);
+        const path_name = pathName;
+        const newPath = path_name.replace(
+          /store\/[^/]+/,
+          `store/${match.value}`,
+        );
+        router.push(newPath);
       }
     }
     return match;

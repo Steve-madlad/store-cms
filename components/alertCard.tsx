@@ -46,7 +46,7 @@ export default function AlertCard({
         <Badge variant={variantMap[variant]}>{textMap[variant]}</Badge>
         {variant === "admin" && <ShieldCheck size={17} />}
       </AlertTitle>
-      <AlertDescription className="flex-between mt-3 gap-4">
+      <AlertDescription className="flex-between mt-3 gap-4 overflow-x-auto">
         {loading ? (
           <div className="h-3.5 w-3/4 animate-pulse rounded-full bg-gray-200"></div>
         ) : (

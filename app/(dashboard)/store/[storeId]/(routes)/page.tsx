@@ -3,6 +3,7 @@ import {
   getStockCount,
   getTotalSales,
   getMontlyRevenue,
+  getStoreUrl,
 } from "@/actions/statsActions";
 import Heading from "@/components/heading";
 import BarChartCard from "@/components/statBarChart";
@@ -20,12 +21,14 @@ export default async function DashboardPage({
   const totalSales = await getTotalSales(storeId);
   const stockCount = await getStockCount(storeId);
   const monthlyRevenue = await getMontlyRevenue(storeId);
+  const storeUrl = await getStoreUrl(storeId);
 
   return (
     <div className="space-y-5">
       <Heading
         header="Dashboard"
         description="Overview of your store"
+        link={storeUrl}
         separator
       />
 

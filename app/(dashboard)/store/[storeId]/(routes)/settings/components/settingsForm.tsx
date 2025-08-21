@@ -34,6 +34,7 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
 
   const formSchema = zod.object({
     name: zod.string().min(1, "Store Name is required."),
+    storeUrl: zod.url("Invalid URL").or(zod.literal("")).optional(),
   });
 
   type SettingsFormValues = zod.infer<typeof formSchema>;
@@ -128,6 +129,14 @@ export default function SettingsForm({ initialData }: SettingsFormProps) {
               label="Store Name"
               disabled={loading || isLoading}
               placeholder="E-Commerce"
+            />
+
+            <FormField
+              control={form.control}
+              name="storeUrl"
+              label="Store Link"
+              disabled={loading || isLoading}
+              placeholder="https://example.com"
             />
           </div>
 

@@ -33,7 +33,7 @@ export default async function dashboardLayout({
   return (
     <>
       <Navbar />
-      <div className="flex-col gap-6 px-6 py-4">{children}</div>
+      <div className="flex-col gap-6 px-3 py-4 sm:px-6">{children}</div>
     </>
   );
 }

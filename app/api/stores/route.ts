@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const { userId } = await auth();
 
     const body = await request.json();
-    const { name } = body;
+    const { name, storeUrl } = body;
 
     if (!userId) {
       return NextResponse.json(
@@ -28,12 +28,12 @@ export async function POST(request: Request) {
     }
 
     const res = await db.store.create({
-      data: { name: name, userId },
+      data: { name: name, storeUrl, userId },
     });
 
     return NextResponse.json(
       {
-        message: "Store submitted successfully",
+        message: "Store created successfully",
         data: res,
       },
       {

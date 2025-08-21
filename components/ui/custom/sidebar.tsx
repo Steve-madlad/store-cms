@@ -3,6 +3,7 @@
 import {
   Sheet,
   SheetContent,
+  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -13,6 +14,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Button } from "../button";
 import { useParams, usePathname } from "next/navigation";
+import { ThemeSwitcher } from "../shadcn-io/theme-switcher";
 
 export default function Sidebar() {
   const isMobile = useIsMobile();
@@ -103,6 +105,10 @@ export default function Sidebar() {
             </Button>
           ))}
         </div>
+
+        <SheetFooter>
+          <ThemeSwitcher className="w-fit" />
+        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

@@ -18,12 +18,14 @@ export default function StoreModal() {
 
   const formSchema = zod.object({
     name: zod.string().min(1, "Store Name is required"),
+    url: zod.url("Invalid URL").or(zod.literal("")).optional(),
   });
 
   const form = useForm<zod.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      url: "",
     },
   });
 
@@ -66,6 +68,14 @@ export default function StoreModal() {
             label="Store Name"
             disabled={storeModal.isLoading}
             placeholder="E-Commerce"
+          />
+
+          <FormField
+            control={form.control}
+            name="url"
+            label="Store Link"
+            disabled={storeModal.isLoading}
+            placeholder="https://example.com"
           />
 
           <div className="flex justify-end gap-2">

@@ -3,6 +3,16 @@
 import db from "@/lib/prisma";
 import { ChartData } from "@/models/components";
 
+export async function getStoreUrl(storeId: string): Promise<string> {
+  const store = await db.store.findUnique({
+    where: {
+      id: storeId,
+    },
+  });
+
+  return store?.storeUrl || "";
+}
+
 export async function getTotalRevenue(storeId: string): Promise<number> {
   const paidOrders = await db.order.findMany({
     where: {

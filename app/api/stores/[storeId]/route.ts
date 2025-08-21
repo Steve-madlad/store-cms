@@ -32,7 +32,7 @@ export async function PATCH(
     const { storeId } = await params;
 
     const body = await request.json();
-    const { name } = body;
+    const { name, storeUrl } = body;
 
     if (!userId) {
       return NextResponse.json(
@@ -59,7 +59,7 @@ export async function PATCH(
         id: storeId,
         userId,
       },
-      data: { name },
+      data: { name, storeUrl },
     });
 
     return NextResponse.json(

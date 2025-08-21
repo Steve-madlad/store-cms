@@ -13,7 +13,8 @@ export default function BarChartCard({ data }: ChartDataProps) {
       <CardHeader className="flex-between">
         <CardTitle className="text-2xl font-semibold">Overview</CardTitle>
       </CardHeader>
-      <CardContent className="align-center gap-1">
+
+      <CardContent className="align-center gap-1 px-0 pr-6 sm:px-6">
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={data}>
             <XAxis

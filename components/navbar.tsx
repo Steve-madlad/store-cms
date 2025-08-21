@@ -27,7 +27,7 @@ export default async function Navbar() {
   }));
 
   return (
-    <div className="flex-center gap-6 border-b px-6 py-2">
+    <div className="flex-center gap-6 border-b px-3 py-2 sm:px-6">
       <StoreSelector storeOptions={storeOptions} />
 
       <NavLinks />
