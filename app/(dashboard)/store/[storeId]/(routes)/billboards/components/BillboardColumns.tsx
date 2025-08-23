@@ -5,8 +5,8 @@ import BillboardActionCell from "./BillboardActionCell";
 
 export type BillboardColumn = {
   id: string;
-  label: string;
-  labelColor: string;
+  label: string | null;
+  labelColor: string | null;
   createdAt: string;
 };
 
