@@ -2,11 +2,13 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import BillboardActionCell from "./BillboardActionCell";
+import { CircleCheck, CircleX } from "lucide-react";
 
 export type BillboardColumn = {
   id: string;
-  label: string | null;
+  label: string;
   labelColor: string | null;
+  showLabel: boolean;
   createdAt: string;
 };
 
@@ -14,7 +16,6 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "label",
     header: "Label",
-    cell: ({ row }) => row.original.label || "No Label",
   },
   {
     accessorKey: "labelColor",
@@ -31,6 +32,19 @@ export const columns: ColumnDef<BillboardColumn>[] = [
               style={{ backgroundColor: color }}
             />
           )}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "showLabel",
+    header: "Label Shown",
+    cell: ({ row }) => {
+      const showLabel = row.original.showLabel;
+
+      return (
+        <div className="pl-6">
+          {showLabel ? <CircleCheck color="green" /> : <CircleX color="red" />}
         </div>
       );
     },

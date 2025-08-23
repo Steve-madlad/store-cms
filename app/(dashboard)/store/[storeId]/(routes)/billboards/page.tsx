@@ -26,6 +26,7 @@ export default async function billboards({
       id: billboard.id,
       label: billboard.label,
       labelColor: billboard.labelColor,
+      showLabel: billboard.showLabel,
       createdAt: new Date(billboard.createdAt).toLocaleString(
         "en-US",
         formatOptions,

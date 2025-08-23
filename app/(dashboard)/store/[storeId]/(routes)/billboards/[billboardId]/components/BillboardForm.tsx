@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import * as zod from "zod";
 import { useModalStore } from "@/hooks/useModalStore";
+import Checkbox from "@/components/ui/custom/checkbox";
 
 interface BillboardFormProps {
   initialData: Billboard | null;
@@ -37,7 +38,8 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
   const action = initialData ? "Save Changes" : "Create Billboard";
 
   const formSchema = zod.object({
-    label: zod.string().trim().nullable(),
+    label: zod.string().trim().min(1, "Label is required"),
+    showLabel: zod.boolean(),
     labelColor: zod
       .string()
       .trim()
@@ -54,6 +56,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
     defaultValues: initialData || {
       label: "",
       labelColor: "#FFFFFF",
+      showLabel: false,
       imageUrl: "",
     },
   });
@@ -193,6 +196,26 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
                   error={form.formState.errors.labelColor}
                 />
               )}
+            />
+
+            <FormField
+              control={form.control}
+              name="showLabel"
+              disabled={loading || isLoading}
+              input={(field) => {
+                const { value, ...fieldProps } = field;
+                return (
+                  <Checkbox
+                    {...fieldProps}
+                    checked={value}
+                    onCheckedChange={field.onChange}
+                    className="cursor"
+                    label="Show Label"
+                    disabled={loading || isLoading}
+                    description="Show Label on Billboard"
+                  />
+                );
+              }}
             />
           </div>
 

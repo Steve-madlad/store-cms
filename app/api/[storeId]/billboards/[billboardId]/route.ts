@@ -51,7 +51,7 @@ export const PATCH = async (
 
     const body = await request.json();
 
-    const { label, labelColor, imageUrl } = body;
+    const { label, labelColor, showLabel, imageUrl } = body;
 
     const hexMatch = labelColor?.match(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/);
 
@@ -117,6 +117,7 @@ export const PATCH = async (
       data: {
         label,
         labelColor,
+        showLabel,
         imageUrl,
       },
     });

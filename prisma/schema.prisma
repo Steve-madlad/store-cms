@@ -32,7 +32,8 @@ model Billboard {
   id String @id @default(uuid())
   storeId String
   store Store @relation("StoreToBillboard", fields: [storeId], references: [id])
-  label String?
+  label String
+  showLabel Boolean @default(false)
   labelColor String? @default("#FFFFFF")
   imageUrl String
   categories Category[]
