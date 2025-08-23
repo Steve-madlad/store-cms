@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ChangeEvent, ReactNode } from "react";
 import { Input } from "./ui/input";
 import {
   ControllerRenderProps,
@@ -16,11 +16,11 @@ interface ColorPickerInputProps<
   input?: (field: ControllerRenderProps<T, K>) => ReactNode;
   label?: string;
   placeholder?: string;
-  value?: string | null;
+  value?: string;
   id?: string;
   disabled?: boolean;
   error?: FieldError;
-  onChange?: (value?: string | null) => void;
+  onChange?: (value?: string) => void;
 }
 
 export default function ColorPickerInput<
@@ -34,8 +34,9 @@ export default function ColorPickerInput<
   id,
   ...props
 }: ColorPickerInputProps<T, K>) {
-  const handleChange = (val: string) => {
-    onChange?.(val.trim() === "" ? null : val);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    onChange?.(val.trim() === "" ? undefined : val);
   };
 
   return (
@@ -45,7 +46,7 @@ export default function ColorPickerInput<
         id={id}
         disabled={disabled}
         value={value ?? ""}
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={handleChange}
         className="w-full"
       />
 

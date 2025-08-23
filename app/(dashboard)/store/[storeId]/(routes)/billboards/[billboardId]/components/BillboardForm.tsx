@@ -44,7 +44,6 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
       .string()
       .trim()
       .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Not a valid Hex Color")
-      .nullable()
       .optional(),
     imageUrl: zod.string().min(1, "Image URL is required"),
   });
@@ -55,7 +54,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       label: "",
-      labelColor: "#FFFFFF",
+      labelColor: undefined,
       showLabel: false,
       imageUrl: "",
     },
@@ -167,7 +166,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
                   className="!w-full transition-none sm:!w-[47.5%] sm:max-w-92"
                 />
               )}
-              label="Image"
+              label="Image*"
               placeholder="Billboard label"
             />
           </div>
@@ -176,7 +175,7 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
             <FormField
               control={form.control}
               name="label"
-              label="Label"
+              label="Label*"
               disabled={loading || isLoading}
               placeholder="Billboard label"
             />
