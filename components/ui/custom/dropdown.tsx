@@ -54,11 +54,12 @@ export default function Dropdown({
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="group cursor flex gap-3 dark:hover:text-white"
+              className="group cursor flex gap-3 dark:hover:text-white dark:focus:text-white"
               onClick={onDelete}
               variant="destructive"
             >
-              <Trash2 className="dark:group-hover:!stroke-white" /> Delete
+              <Trash2 className="dark:group-hover:!stroke-white dark:group-focus:!stroke-white" />{" "}
+              Delete
             </DropdownMenuItem>
           </>
         )}

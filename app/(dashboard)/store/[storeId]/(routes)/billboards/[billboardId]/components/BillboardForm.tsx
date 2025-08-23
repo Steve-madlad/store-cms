@@ -37,11 +37,12 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
   const action = initialData ? "Save Changes" : "Create Billboard";
 
   const formSchema = zod.object({
-    label: zod.string().trim().min(1, "Label is required"),
+    label: zod.string().trim().nullable(),
     labelColor: zod
       .string()
       .trim()
       .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/, "Not a valid Hex Color")
+      .nullable()
       .optional(),
     imageUrl: zod.string().min(1, "Image URL is required"),
   });
@@ -186,7 +187,6 @@ export default function BillboardForm({ initialData }: BillboardFormProps) {
               input={(field) => (
                 <ColorPickerInput
                   {...field}
-                  value={field.value ? field.value : undefined}
                   id={"labelColor"}
                   disabled={loading || isLoading}
                   placeholder="Billboard label Color"

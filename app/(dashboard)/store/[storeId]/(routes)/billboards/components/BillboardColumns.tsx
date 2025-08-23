@@ -14,6 +14,7 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "label",
     header: "Label",
+    cell: ({ row }) => row.original.label || "No Label",
   },
   {
     accessorKey: "labelColor",
@@ -24,10 +25,12 @@ export const columns: ColumnDef<BillboardColumn>[] = [
       return (
         <div className="flex items-center gap-x-2">
           <div>{color}</div>
-          <div
-            className="border-primary size-6 rounded-full border"
-            style={{ backgroundColor: color }}
-          />
+          {color && (
+            <div
+              className="border-primary size-6 rounded-full border"
+              style={{ backgroundColor: color }}
+            />
+          )}
         </div>
       );
     },

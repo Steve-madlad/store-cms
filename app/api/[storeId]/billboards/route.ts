@@ -73,11 +73,11 @@ export const POST = async (
       );
     }
 
-    if (!label || !imageUrl || (labelColor && !hexMatch)) {
+    if (!imageUrl || (labelColor && !hexMatch)) {
       const message =
         labelColor && !hexMatch
           ? "Not a valid hex color"
-          : `${!label ? "Label" : "Image URL"} is required`;
+          : "Image URL is required";
 
       return NextResponse.json(
         {
