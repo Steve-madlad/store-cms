@@ -3,6 +3,11 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import SettingsForm from "./components/settingsForm";
 
+export const metadata = {
+  title: "Store Settings",
+  description: "Manage Settings for Your Store",
+};
+
 export default async function page({
   params,
 }: {

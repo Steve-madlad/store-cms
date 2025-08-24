@@ -1,6 +1,7 @@
 import db from "@/lib/prisma";
 import SizeClient from "./components/SizeClient";
 import { sizeColumn } from "./components/SizeColumns";
+import { readableDateFormat } from "@/lib/utils";
 
 export default async function sizes({
   params,
@@ -15,17 +16,11 @@ export default async function sizes({
     },
   });
 
-  const formatOptions: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  };
-
   const formattedSizes: sizeColumn[] = sizes.map((size) => ({
     id: size.id,
     name: size.name,
     value: size.value,
-    createdAt: new Date(size.createdAt).toLocaleString("en-US", formatOptions),
+    createdAt: readableDateFormat.format(size.createdAt),
   }));
 
   return <SizeClient sizes={formattedSizes} />;

@@ -11,6 +11,11 @@ import StatCard from "@/components/ui/statCard";
 import { CreditCard, DollarSign, Package, Plus } from "lucide-react";
 import React from "react";
 
+export const metadata = {
+  title: "Overview",
+  description: "Store Dashboard Overview Page",
+};
+
 export default async function DashboardPage({
   params,
 }: {

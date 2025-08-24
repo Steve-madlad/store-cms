@@ -3,6 +3,11 @@ import { currencyFormat, readableDateFormat } from "@/lib/utils";
 import OrderClient from "./components/OrderClient";
 import { OrderColumn } from "./components/OrderColumns";
 
+export const metadata = {
+  title: "Store Orders",
+  description: "Check Orders from Your Store",
+};
+
 export default async function orders({
   params,
 }: {

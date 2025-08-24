@@ -1,6 +1,12 @@
 import db from "@/lib/prisma";
 import ColorClient from "./components/ColorClient";
 import { colorColumn } from "./components/ColorColumns";
+import { readableDateFormat } from "@/lib/utils";
+
+export const metadata = {
+  title: "Store Colors",
+  description: "Manage Colorss for Your Store",
+};
 
 export default async function colors({
   params,
@@ -15,17 +21,11 @@ export default async function colors({
     },
   });
 
-  const formatOptions: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  };
-
   const formattedColors: colorColumn[] = colors.map((color) => ({
     id: color.id,
     name: color.name,
     value: color.value,
-    createdAt: new Date(color.createdAt).toLocaleString("en-US", formatOptions),
+    createdAt: readableDateFormat.format(color.createdAt),
   }));
 
   return <ColorClient colors={formattedColors} />;

@@ -4,12 +4,13 @@ import AlertCardSection from "@/components/alertCardSection";
 import Heading from "@/components/heading";
 import { Button } from "@/components/ui/custom/button";
 import { DataTable } from "@/components/ui/data-table";
+import { Separator } from "@/components/ui/separator";
 import { useOrigin } from "@/hooks/useOrigin";
 import { AlertCardProps } from "@/models/components";
+import { useRouter } from "@bprogress/next/app";
 import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { CategoryColumn, columns } from "./CategoryColumns";
-import { Separator } from "@/components/ui/separator";
 
 export default function CategoryClient({
   categories,

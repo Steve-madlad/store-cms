@@ -1,6 +1,12 @@
 import BillboardClient from "./components/BillboardClient";
 import db from "@/lib/prisma";
 import { BillboardColumn } from "./components/BillboardColumns";
+import { readableDateFormat } from "@/lib/utils";
+
+export const metadata = {
+  title: "Store Billboard",
+  description: "Manage Billboards for Your Store",
+};
 
 export default async function billboards({
   params,
@@ -15,22 +21,13 @@ export default async function billboards({
     },
   });
 
-  const formatOptions: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  };
-
   const formattedBillboards: BillboardColumn[] = billboards.map(
     (billboard) => ({
       id: billboard.id,
       label: billboard.label,
       labelColor: billboard.labelColor,
       showLabel: billboard.showLabel,
-      createdAt: new Date(billboard.createdAt).toLocaleString(
-        "en-US",
-        formatOptions,
-      ),
+      createdAt: readableDateFormat.format(billboard.createdAt),
     }),
   );
 

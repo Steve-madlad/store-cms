@@ -1,6 +1,6 @@
 "use client";
 
-import { ProgressProvider as AppProgressProvider } from "@bprogress/next/app";
+import { ProgressProvider } from "@bprogress/next/app";
 import { useTheme } from "next-themes";
 import { ReactNode, useEffect, useState } from "react";
 
@@ -17,11 +17,11 @@ export default function ProgressBarProvider({
   }, []);
 
   return (
-    <AppProgressProvider
+    <ProgressProvider
       options={{ showSpinner: false }}
       color={mounted && theme.resolvedTheme === "light" ? "black" : "white"}
     >
       {children}
-    </AppProgressProvider>
+    </ProgressProvider>
   );
 }

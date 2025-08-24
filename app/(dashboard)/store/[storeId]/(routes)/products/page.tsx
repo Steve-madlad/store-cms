@@ -1,7 +1,12 @@
 import ProductClient from "./components/ProductClient";
 import db from "@/lib/prisma";
 import { ProductColumn } from "./components/ProductColumns";
-import { currencyFormat } from "@/lib/utils";
+import { currencyFormat, readableDateFormat } from "@/lib/utils";
+
+export const metadata = {
+  title: "Store Products",
+  description: "Manage Products for Your Store",
+};
 
 export default async function products({
   params,
@@ -21,12 +26,6 @@ export default async function products({
     },
   });
 
-  const formatOptions: Intl.DateTimeFormatOptions = {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  };
-
   const formattedProducts: ProductColumn[] = products.map((product) => ({
     id: product.id,
     name: product.name,
@@ -36,10 +35,7 @@ export default async function products({
     category: product.category.name,
     size: product.size.name,
     color: product.color.value,
-    createdAt: new Date(product.createdAt).toLocaleString(
-      "en-US",
-      formatOptions,
-    ),
+    createdAt: readableDateFormat.format(product.createdAt),
   }));
 
   return <ProductClient products={formattedProducts} />;

@@ -7,9 +7,10 @@ import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { useOrigin } from "@/hooks/useOrigin";
 import { AlertCardProps } from "@/models/components";
+import { useRouter } from "@bprogress/next/app";
 import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { columns, colorColumn } from "./ColorColumns";
+import { useParams } from "next/navigation";
+import { colorColumn, columns } from "./ColorColumns";
 
 export default function ColorClient({ colors }: { colors: colorColumn[] }) {
   const router = useRouter();

@@ -1,5 +1,7 @@
 import { ClerkProvider } from "@/components/clerkProvider";
+import ProgressBarProvider from "@/components/providers/progressBarProvider";
 import ThemeSwitch from "@/components/themeSwitch";
+import { Button } from "@/components/ui/custom/button";
 import ModalProvider from "@/providers/modal-provider";
 import { SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 import type { Metadata } from "next";
@@ -7,8 +9,6 @@ import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster as ToastProvider } from "react-hot-toast";
 import "./globals.css";
-import { Button } from "@/components/ui/custom/button";
-import ProgressBarProvider from "@/components/providers/progressBarProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Store CMS",
-  description: "E-Commerce Store with built in CMS",
+  description: "Store Content Management System Admin Portal",
 };
 
 export default function RootLayout({

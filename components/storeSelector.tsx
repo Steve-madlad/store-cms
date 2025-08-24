@@ -1,10 +1,11 @@
 "use client";
 
-import { Options } from "@/models/components";
-import Combobox from "./ui/custom/combobox";
 import { useModalStore } from "@/hooks/useModalStore";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { Options } from "@/models/components";
+import { useRouter } from "@bprogress/next/app";
 import { Store } from "lucide-react";
+import { useParams, usePathname } from "next/navigation";
+import Combobox from "./ui/custom/combobox";
 
 export default function StoreSelector({
   storeOptions,
