@@ -14,8 +14,6 @@ Store CMS is a multi-store commerce management dashboard built with Next.js. Sto
 
 ## Tech stack
 
-Versions below are taken from `package.json`. A `^` indicates the declared compatible version range; `package-lock.json` records the resolved dependency tree.
-
 [![Next.js](https://img.shields.io/badge/Next.js-15.4.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.1.0-20232a?style=for-the-badge&logo=react)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-%5E4-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
